@@ -1,7 +1,7 @@
 import json
 from flask import Flask, render_template, request, send_file
 import folium
-from folium.plugins import Fullscreen, MarkerCluster
+from folium.plugins import Fullscreen
 import urllib.parse
 
 app = Flask(__name__)
@@ -141,7 +141,7 @@ def index():
     folium_map.save('static/map.html')
     
     # Render the HTML page with the map
-    return render_template('index.html', title="My trips. Map 1", map_url='map.html')
+    return render_template('index.html', title="My Travel Map", map_url='map.html')
 
 @app.route('/gallery')
 def gallery():
