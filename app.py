@@ -160,7 +160,7 @@ def map2():
             tooltip=place["name"],
             lazy=True
         ).add_to(marker_cluster)
-    
+
     fullscreen = Fullscreen(
         position="topright",
         title="Expand me",
@@ -169,8 +169,7 @@ def map2():
     )
     fullscreen.add_to(folium_map)
 
-    # Сохранение карты в HTML файл
-    folium_map.save('static/map2.html')
+    ###folium_map.save('static/map2.html')
     return render_template('index.html', title="My trips. Map 2", map_url='map2.html')
 
 @app.route('/gallery')
