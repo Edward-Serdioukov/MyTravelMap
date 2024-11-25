@@ -138,10 +138,40 @@ def index():
 
    
     # Save the map to an HTML file
-    folium_map.save('static/map.html')
+    ###folium_map.save('static/map.html')
     
     # Render the HTML page with the map
     return render_template('index.html', title="My Travel Map", map_url='map.html')
+
+@app.route('/map2')
+def map2():
+    start_coords = (46.0, 17.0)  
+    folium_map = folium.Map(location=start_coords, zoom_start=4)
+    marker_cluster = folium.plugins.MarkerCluster().add_to(folium_map)
+
+    folium_map.get_root().header.add_child(folium.CssLink('css/style.css'))
+ 
+
+    for place in places_visited:
+        html = get_html_for_popup(place)
+        folium.Marker(
+            location=place["coords"],
+            popup=html,
+            tooltip=place["name"],
+            lazy=True
+        ).add_to(marker_cluster)
+    
+    fullscreen = Fullscreen(
+        position="topright",
+        title="Expand me",
+        title_cancel="Exit me",
+        force_separate_button=True,
+    )
+    fullscreen.add_to(folium_map)
+
+    # Сохранение карты в HTML файл
+    folium_map.save('static/map2.html')
+    return render_template('index.html', title="My trips. Map 2", map_url='map2.html')
 
 @app.route('/gallery')
 def gallery():
