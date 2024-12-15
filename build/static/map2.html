@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="css/style.css"/>
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_be4f6aa33a5d5a356dcc1d99ed55fdbe {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/leaflet.markercluster.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.Default.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.css"/>
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_be4f6aa33a5d5a356dcc1d99ed55fdbe" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_be4f6aa33a5d5a356dcc1d99ed55fdbe = L.map(
+                "map_be4f6aa33a5d5a356dcc1d99ed55fdbe",
+                {
+                    center: [46.0, 17.0],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 4,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_c265ac384fcf701cf26c1134c0887085 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors", "detectRetina": false, "maxNativeZoom": 19, "maxZoom": 19, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            );
+        
+    
+            tile_layer_c265ac384fcf701cf26c1134c0887085.addTo(map_be4f6aa33a5d5a356dcc1d99ed55fdbe);
+        
+    
+            var marker_cluster_8f93e61e8ba05fead790faa12d126ded = L.markerClusterGroup(
+                {}
+            );
+        
+    
+            var marker_910b6a302cf03599eef9e81c5a342fd6 = L.marker(
+                [49.019874936422745, 12.093504368009864],
+                {"lazy": true}
+            ).addTo(marker_cluster_8f93e61e8ba05fead790faa12d126ded);
+        
+    
+        var popup_43ad95c57fcd88e2a697ab26ea768367 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_13b0a1d8bf883fc80b3c0ef108c6f579 = $(`<div id="html_13b0a1d8bf883fc80b3c0ef108c6f579" style="width: 100.0%; height: 100.0%;">                     <div  class="filmstrip" id="image-popup" style='width:300px; height:410px; overflow-y: scroll;'>                 <b>Regensburg</b><br><a href="/gallery?images=%2Fstatic%2Fimages%2Fgermany3.jpg%2C%2Fstatic%2Fimages%2Fgermany4.jpg&title=Regensburg" target="_blank"><img src='/static/images/germany3.jpg' alt='Images' style='width:100%;'><img src='/static/images/germany4.jpg' alt='Images' style='width:100%;'></a></div></div>`)[0];
+                popup_43ad95c57fcd88e2a697ab26ea768367.setContent(html_13b0a1d8bf883fc80b3c0ef108c6f579);
+            
+        
+
+        marker_910b6a302cf03599eef9e81c5a342fd6.bindPopup(popup_43ad95c57fcd88e2a697ab26ea768367)
+        ;
+
+        
+    
+    
+            marker_910b6a302cf03599eef9e81c5a342fd6.bindTooltip(
+                `<div>
+                     Regensburg
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_b4d3911ce026cb91a505091153362811 = L.marker(
+                [50.087077829240336, 14.420699661549783],
+                {"lazy": true}
+            ).addTo(marker_cluster_8f93e61e8ba05fead790faa12d126ded);
+        
+    
+        var popup_216706d29a93c8c499452837caa3c67e = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_0e7564b57881e9569390f9f673005f4d = $(`<div id="html_0e7564b57881e9569390f9f673005f4d" style="width: 100.0%; height: 100.0%;">                     <div  class="filmstrip" id="image-popup" style='width:300px; height:410px; overflow-y: scroll;'>                 <b>Prague</b><br><a href="/gallery?images=%2Fstatic%2Fimages%2Fpraha7.jpg%2C%2Fstatic%2Fimages%2Fpraha10.jpg%2C%2Fstatic%2Fimages%2Fpraha8.jpg%2C%2Fstatic%2Fimages%2Fpraha9.jpg&title=Prague" target="_blank"><img src='/static/images/praha7.jpg' alt='Images' style='width:100%;'><img src='/static/images/praha10.jpg' alt='Images' style='width:100%;'><img src='/static/images/praha8.jpg' alt='Images' style='width:100%;'><img src='/static/images/praha9.jpg' alt='Images' style='width:100%;'></a></div></div>`)[0];
+                popup_216706d29a93c8c499452837caa3c67e.setContent(html_0e7564b57881e9569390f9f673005f4d);
+            
+        
+
+        marker_b4d3911ce026cb91a505091153362811.bindPopup(popup_216706d29a93c8c499452837caa3c67e)
+        ;
+
+        
+    
+    
+            marker_b4d3911ce026cb91a505091153362811.bindTooltip(
+                `<div>
+                     Prague
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_1d748912a473340b49216536f3a3ceb4 = L.marker(
+                [49.373776337808934, 10.195805076292428],
+                {"lazy": true}
+            ).addTo(marker_cluster_8f93e61e8ba05fead790faa12d126ded);
+        
+    
+        var popup_8a0a40195e42bb58090791504153cf03 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_16e867be5d98ba291fe5e7f9177f1a15 = $(`<div id="html_16e867be5d98ba291fe5e7f9177f1a15" style="width: 100.0%; height: 100.0%;">                 <div  class="filmstrip" id="image-popup" style='width:300px; height:410px; overflow-y: scroll;'>                 <b>Rotenburg</b><br><a href="/gallery?images=%2Fstatic%2Fimages%2Frotenburg4.jpg&title=Rotenburg" target="_blank"><img src='/static/images/rotenburg4.jpg' alt='Images' style='width:100%;'/></a></div></div>`)[0];
+                popup_8a0a40195e42bb58090791504153cf03.setContent(html_16e867be5d98ba291fe5e7f9177f1a15);
+            
+        
+
+        marker_1d748912a473340b49216536f3a3ceb4.bindPopup(popup_8a0a40195e42bb58090791504153cf03)
+        ;
+
+        
+    
+    
+            marker_1d748912a473340b49216536f3a3ceb4.bindTooltip(
+                `<div>
+                     Rotenburg
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_884b6bfd6afd132118d3c0663239352e = L.marker(
+                [52.32595806606605, 9.804916448310456],
+                {"lazy": true}
+            ).addTo(marker_cluster_8f93e61e8ba05fead790faa12d126ded);
+        
+    
+        var popup_90dbbd0ca0e76aea8bfe52ec09d2231c = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_57b04e55bae707e5521aac39b1cc3d26 = $(`<div id="html_57b04e55bae707e5521aac39b1cc3d26" style="width: 100.0%; height: 100.0%;">                     <div  class="filmstrip" id="image-popup" style='width:300px; height:410px; overflow-y: scroll;'>                 <b>Gannover</b><br><a href="/gallery?images=%2Fstatic%2Fimages%2Fgannover1-3.jpg%2C%2Fstatic%2Fimages%2Fgannover1-4.jpg&title=Gannover" target="_blank"><img src='/static/images/gannover1-3.jpg' alt='Images' style='width:100%;'><img src='/static/images/gannover1-4.jpg' alt='Images' style='width:100%;'></a></div></div>`)[0];
+                popup_90dbbd0ca0e76aea8bfe52ec09d2231c.setContent(html_57b04e55bae707e5521aac39b1cc3d26);
+            
+        
+
+        marker_884b6bfd6afd132118d3c0663239352e.bindPopup(popup_90dbbd0ca0e76aea8bfe52ec09d2231c)
+        ;
+
+        
+    
+    
+            marker_884b6bfd6afd132118d3c0663239352e.bindTooltip(
+                `<div>
+                     Gannover
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_85fafb3fedb418ed477c2060eae1ab3f = L.marker(
+                [42.43121104463073, 19.26102575823919],
+                {"lazy": true}
+            ).addTo(marker_cluster_8f93e61e8ba05fead790faa12d126ded);
+        
+    
+        var popup_e555ea97590db84831ab23ede2a1b865 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_54c112e17c9162182493bb8b78b7ec07 = $(`<div id="html_54c112e17c9162182493bb8b78b7ec07" style="width: 100.0%; height: 100.0%;">                     <div  class="filmstrip" id="image-popup" style='width:300px; height:410px; overflow-y: scroll;'>                 <b>Podgorica</b><br><a href="/gallery?images=%2Fstatic%2Fimages%2Fostrog3.jpg%2C%2Fstatic%2Fimages%2Fkotor1.jpg&title=Podgorica" target="_blank"><img src='/static/images/ostrog3.jpg' alt='Images' style='width:100%;'><img src='/static/images/kotor1.jpg' alt='Images' style='width:100%;'></a></div></div>`)[0];
+                popup_e555ea97590db84831ab23ede2a1b865.setContent(html_54c112e17c9162182493bb8b78b7ec07);
+            
+        
+
+        marker_85fafb3fedb418ed477c2060eae1ab3f.bindPopup(popup_e555ea97590db84831ab23ede2a1b865)
+        ;
+
+        
+    
+    
+            marker_85fafb3fedb418ed477c2060eae1ab3f.bindTooltip(
+                `<div>
+                     Podgorica
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_1e807900ce33349ea0b4994a0133e068 = L.marker(
+                [52.229575635274635, 21.013038892885927],
+                {"lazy": true}
+            ).addTo(marker_cluster_8f93e61e8ba05fead790faa12d126ded);
+        
+    
+        var popup_16b488fd54cda8c55faedbe96cef4e71 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_710257b32ca3dceb46c3087f40258eb7 = $(`<div id="html_710257b32ca3dceb46c3087f40258eb7" style="width: 100.0%; height: 100.0%;">                     <div  class="filmstrip" id="image-popup" style='width:300px; height:410px; overflow-y: scroll;'>                 <b>Warsaw</b><br><a href="/gallery?images=%2Fstatic%2Fimages%2Fwarsaw1.jpg%2C%2Fstatic%2Fimages%2Fwarsaw11.jpg&title=Warsaw" target="_blank"><img src='/static/images/warsaw1.jpg' alt='Images' style='width:100%;'><img src='/static/images/warsaw11.jpg' alt='Images' style='width:100%;'></a></div></div>`)[0];
+                popup_16b488fd54cda8c55faedbe96cef4e71.setContent(html_710257b32ca3dceb46c3087f40258eb7);
+            
+        
+
+        marker_1e807900ce33349ea0b4994a0133e068.bindPopup(popup_16b488fd54cda8c55faedbe96cef4e71)
+        ;
+
+        
+    
+    
+            marker_1e807900ce33349ea0b4994a0133e068.bindTooltip(
+                `<div>
+                     Warsaw
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_fae5ac824b062e9e76e09ffd0c713114 = L.marker(
+                [52.21460873842079, 21.03286039128743],
+                {"lazy": true}
+            ).addTo(marker_cluster_8f93e61e8ba05fead790faa12d126ded);
+        
+    
+        var popup_9ae1763cbefac011e2d6dd6bcf27ad6d = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_35f3955459804f67decd7d445345a0cd = $(`<div id="html_35f3955459804f67decd7d445345a0cd" style="width: 100.0%; height: 100.0%;">                     <div  class="filmstrip" id="image-popup" style='width:300px; height:410px; overflow-y: scroll;'>                 <b>Warsaw (Royal Lazienki Park)</b><br><a href="/gallery?images=%2Fstatic%2Fimages%2Fwarsaw-park-3.jpg%2C%2Fstatic%2Fimages%2Fwarsaw-park-4.jpg%2C%2Fstatic%2Fimages%2Fwarsaw-park-5.jpg%2C%2Fstatic%2Fimages%2Fwarsaw-park-6.jpg&title=Warsaw+%28Royal+Lazienki+Park%29" target="_blank"><img src='/static/images/warsaw-park-3.jpg' alt='Images' style='width:100%;'><img src='/static/images/warsaw-park-4.jpg' alt='Images' style='width:100%;'><img src='/static/images/warsaw-park-5.jpg' alt='Images' style='width:100%;'><img src='/static/images/warsaw-park-6.jpg' alt='Images' style='width:100%;'></a></div></div>`)[0];
+                popup_9ae1763cbefac011e2d6dd6bcf27ad6d.setContent(html_35f3955459804f67decd7d445345a0cd);
+            
+        
+
+        marker_fae5ac824b062e9e76e09ffd0c713114.bindPopup(popup_9ae1763cbefac011e2d6dd6bcf27ad6d)
+        ;
+
+        
+    
+    
+            marker_fae5ac824b062e9e76e09ffd0c713114.bindTooltip(
+                `<div>
+                     Warsaw (Royal Lazienki Park)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_30a8ff3d8a437b196a3e795ff5871cf1 = L.marker(
+                [49.9773, 12.7065],
+                {"lazy": true}
+            ).addTo(marker_cluster_8f93e61e8ba05fead790faa12d126ded);
+        
+    
+        var popup_2161d9f83519201fcd0fa92584e78519 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_7bfc4a1f967f2e8dda3657fd73cd0d69 = $(`<div id="html_7bfc4a1f967f2e8dda3657fd73cd0d69" style="width: 100.0%; height: 100.0%;">                     <div  class="filmstrip" id="image-popup" style='width:300px; height:410px; overflow-y: scroll;'>                 <b>Marianske Lazne</b><br><a href="/gallery?images=%2Fstatic%2Fimages%2Fml12.jpg%2C%2Fstatic%2Fimages%2Fml24.jpg%2C%2Fstatic%2Fimages%2Fml102.jpg&title=Marianske+Lazne" target="_blank"><img src='/static/images/ml12.jpg' alt='Images' style='width:100%;'><img src='/static/images/ml24.jpg' alt='Images' style='width:100%;'><img src='/static/images/ml102.jpg' alt='Images' style='width:100%;'></a></div></div>`)[0];
+                popup_2161d9f83519201fcd0fa92584e78519.setContent(html_7bfc4a1f967f2e8dda3657fd73cd0d69);
+            
+        
+
+        marker_30a8ff3d8a437b196a3e795ff5871cf1.bindPopup(popup_2161d9f83519201fcd0fa92584e78519)
+        ;
+
+        
+    
+    
+            marker_30a8ff3d8a437b196a3e795ff5871cf1.bindTooltip(
+                `<div>
+                     Marianske Lazne
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_f77f7ebe54a4056803e78154f790eb33 = L.marker(
+                [41.3703, 2.1723],
+                {"lazy": true}
+            ).addTo(marker_cluster_8f93e61e8ba05fead790faa12d126ded);
+        
+    
+        var popup_b38f0f64caa6ff923b020a766f1640ee = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_981050b2eb6b5f3390c0ec7a9157ebac = $(`<div id="html_981050b2eb6b5f3390c0ec7a9157ebac" style="width: 100.0%; height: 100.0%;">                     <div  class="filmstrip" id="image-popup" style='width:300px; height:410px; overflow-y: scroll;'>                 <b>Barselona</b><br><a href="/gallery?images=%2Fstatic%2Fimages%2Fbrsn2.jpg%2C%2Fstatic%2Fimages%2Fbrsn1.jpg%2C%2Fstatic%2Fimages%2Fbrsn3.jpg%2C%2Fstatic%2Fimages%2Fbrsn4.jpg&title=Barselona" target="_blank"><img src='/static/images/brsn2.jpg' alt='Images' style='width:100%;'><img src='/static/images/brsn1.jpg' alt='Images' style='width:100%;'><img src='/static/images/brsn3.jpg' alt='Images' style='width:100%;'><img src='/static/images/brsn4.jpg' alt='Images' style='width:100%;'></a></div></div>`)[0];
+                popup_b38f0f64caa6ff923b020a766f1640ee.setContent(html_981050b2eb6b5f3390c0ec7a9157ebac);
+            
+        
+
+        marker_f77f7ebe54a4056803e78154f790eb33.bindPopup(popup_b38f0f64caa6ff923b020a766f1640ee)
+        ;
+
+        
+    
+    
+            marker_f77f7ebe54a4056803e78154f790eb33.bindTooltip(
+                `<div>
+                     Barselona
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            marker_cluster_8f93e61e8ba05fead790faa12d126ded.addTo(map_be4f6aa33a5d5a356dcc1d99ed55fdbe);
+        
+    
+            L.control.fullscreen(
+                {"forceSeparateButton": true, "position": "topright", "title": "Expand me", "titleCancel": "Exit me"}
+            ).addTo(map_be4f6aa33a5d5a356dcc1d99ed55fdbe);
+        
+</script>
+</html>
