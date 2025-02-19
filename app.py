@@ -3,12 +3,17 @@ from flask import Flask, render_template, request, send_file
 import folium
 from folium.plugins import Fullscreen
 import urllib.parse
+from collections import defaultdict
+import re
 
 app = Flask(__name__)
 
 
 with open('places_visited.json', 'r') as f:
     places_visited = json.load(f)
+    
+with open('countries_map.json', 'r') as f:
+    COUNTRY_MAP = json.load(f)
     
 
 button_html = """
@@ -26,9 +31,11 @@ button_html = """
         <p>To see the photo, you need to click on the marker. A popup window with small photos will open. 
         If you click on any photo in the popup, a new window with large photos will open.</p>
         <button onclick="document.getElementById('info').style.display='none';">Close</button>
+        <a href="/book" target="_blank">&#127758;</a>
+        <a href="/book-dates" target="_blank">&#128197;</a> 
     </div>
 </div>
-"""
+""" 
 
 def get_html_for_popup(place):
     """
@@ -86,7 +93,51 @@ def get_html_for_popup(place):
 
     return html
 
+def replace_html(html_file):
 
+    with open(html_file, 'r', encoding='utf-8') as f:
+        html = f.read()
+
+    """
+    html = html.replace(
+        'https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css',
+        'https://unpkg.com/leaflet@1.9.3/dist/leaflet.css'
+    )
+    html = html.replace(
+        'https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js',
+        'https://unpkg.com/leaflet@1.9.3/dist/leaflet.js'
+    )
+    """
+    
+    html = html.replace(
+        'https://cdn.jsdelivr.net/npm/leaflet-textpath@1.2.3/leaflet.textpath.min.js',
+        'js/leaflet.textpath.min.js'
+    )
+    html = html.replace(
+        'https://cdn.jsdelivr.net/gh/marslan390/BeautifyMarker/leaflet-beautify-marker-icon.min.css',
+        'css/leaflet-beautify-marker-icon.min.css'
+    )
+    html = html.replace(
+        'https://cdn.jsdelivr.net/gh/marslan390/BeautifyMarker/leaflet-beautify-marker-icon.min.js',
+        'js/leaflet-beautify-marker-icon.min.js'
+    )
+    html = html.replace(
+        'https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.min.js',
+        'js/Control.FullScreen.min.js'
+    )
+    html = html.replace(
+        'https://cdn.jsdelivr.net/npm',
+        'https://unpkg.com'
+    )
+    html = html.replace(
+        'https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css',
+        'css/leaflet.awesome.rotate.min.css'
+    )
+
+
+    with open(html_file, 'w', encoding='utf-8') as f:
+        f.write(html)
+    
 @app.route('/sw.js')
 def serve_sw():
     return send_file('sw.js', mimetype='application/javascript')
@@ -138,7 +189,8 @@ def index():
 
    
     # Save the map to an HTML file
-    ###folium_map.save('static/map.html')
+    folium_map.save('static/map.html')
+    replace_html('static/map.html')
     
     # Render the HTML page with the map
     return render_template('index.html', title="My Travel Map", map_url='map.html')
@@ -171,6 +223,118 @@ def map2():
 
     ###folium_map.save('static/map2.html')
     return render_template('index.html', title="My trips. Map 2", map_url='map2.html')
+
+def process_data(data):
+    timeline = {}
+    for item in data:
+        name = item['name']
+        years = extract_year(name)  # This now returns a list of years
+        place = extract_place(name)  # Extract place from the name
+        country = COUNTRY_MAP.get(place, "Unknown")
+
+        if years:  # Only proceed if there are years in the list
+            for year in years:
+                if year:  # Ensure year is valid
+                    if year not in timeline:
+                        timeline[year] = {}
+                    if country not in timeline[year]:
+                        timeline[year][country] = {}
+                    if place not in timeline[year][country]:
+                        timeline[year][country][place] = []
+
+                    timeline[year][country][place].append({
+                        "coords": item['coords'],
+                        "images": item['images'],
+                        "img_orient": item['img_orient'],
+                        "original_name": name  # Store the original name
+                    })
+    return timeline
+
+
+def extract_year(name):
+    years = set()
+    parts = re.split(r'[,\s]+', name)
+
+    for part in parts:
+        part = part.strip()
+        if part.isdigit() and len(part) == 4:  # Check if it's a single year
+            years.add(part)
+        elif "-" in part:  # Check for a range of years
+            range_years = part.split("-")
+            if len(range_years) == 2 and range_years[0].isdigit() and len(range_years[0]) == 4 and range_years[1].isdigit() and len(range_years[1]) == 4:
+                # Add all years in the range
+                """
+                start_year = int(range_years[0])
+                end_year = int(range_years[1])
+                for year in range(start_year, end_year + 1):
+                    years.add(str(year))
+                """
+                years.add(str(range_years[0]))
+                years.add(str(range_years[1]))
+
+    # Return a list of years, or None if no years found
+    return list(years) if years else None
+
+
+def extract_place(name):
+    parts = name.split(' ')
+    if len(parts) > 0:
+        for part in parts:
+            if any(char.isdigit() for char in part):
+                return ' '.join(parts[:parts.index(part)])
+        #return parts[0].strip()
+    return name.strip()  # If no comma, return the whole name
+
+def get_timeline():
+    timeline_data = process_data(places_visited)
+    # Сортируем ключи (года)
+    sorted_keys = sorted(timeline_data.keys(), key=int)
+    sorted_timeline = {}
+    for year in sorted_keys:
+        # Сортируем места внутри года
+        sorted_places = sorted(timeline_data[year].keys())
+        sorted_timeline[year] = {}
+        for place in sorted_places:
+            sorted_timeline[year][place] = timeline_data[year][place]
+    return sorted_timeline
+
+@app.route('/book')
+def book():
+
+    # 2. Создадим структуру для группировки:
+    #    countries = {
+    #        "Czech Republic": {
+    #            "Marianske Lazne": [...],
+    #            "Prague": [...],
+    #            ...
+    #        },
+    #        "Germany": {
+    #            "Nurnberg": [...],
+    #            ...
+    #        }
+    #    }
+    countries = defaultdict(lambda: defaultdict(list))
+
+    for place in places_visited:
+        # Предположим, что город — это первое слово в "name".
+        # Например, "Barselona 2016-2023" -> "Barselona"
+        # Или "Marianske Lazne 2024" -> "Marianske"
+        # Но на практике, возможно, придётся распарсить чуть иначе.
+        city_candidate = extract_place(place["name"]) #place["name"].split()[0]
+
+        # Ищем, какая страна соответствует этому городу
+        country = COUNTRY_MAP.get(city_candidate, "Unknown")
+
+        # Добавляем в итоговую структуру
+        countries[country][city_candidate].append(place)
+
+    # 3. Передаём в шаблон
+    return render_template('photobook.html', countries=countries)
+
+@app.route('/book-dates')
+def book_dates():
+    timeline_data = get_timeline()
+    return render_template('photobook-dates.html', timeline_data=timeline_data, is_img='true')
 
 @app.route('/gallery')
 def gallery():

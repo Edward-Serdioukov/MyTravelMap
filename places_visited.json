@@ -1,12 +1,12 @@
 [
-        {"name": "Regensburg", "coords": [49.019874936422745, 12.093504368009864], "images": ["/static/images/germany3.jpg","/static/images/germany4.jpg"], "img_orient":"2"},
-        {"name": "Prague", "coords": [50.087077829240336, 14.420699661549783], "images": ["/static/images/praha7.jpg","/static/images/praha10.jpg","/static/images/praha8.jpg","/static/images/praha9.jpg"], "img_orient":"2"},
-        {"name": "Rotenburg", "coords": [49.373776337808934, 10.195805076292428], "images": [ "/static/images/rotenburg4.jpg"], "img_orient":"1"},
-        {"name": "Gannover", "coords": [52.32595806606605, 9.804916448310456], "images": ["/static/images/gannover1-3.jpg","/static/images/gannover1-4.jpg"], "img_orient":"2"},
-        {"name": "Podgorica", "coords": [42.43121104463073, 19.26102575823919], "images": ["/static/images/ostrog3.jpg","/static/images/kotor1.jpg"], "img_orient":"2"},
-        {"name": "Warsaw","coords": [52.229575635274635, 21.013038892885927], "images": ["/static/images/warsaw1.jpg","/static/images/warsaw11.jpg"], "img_orient":"2"},
-        {"name": "Warsaw (Royal Lazienki Park)", "coords": [52.21460873842079, 21.03286039128743], "images": ["/static/images/warsaw-park-3.jpg","/static/images/warsaw-park-4.jpg","/static/images/warsaw-park-5.jpg","/static/images/warsaw-park-6.jpg"], "img_orient":"2"},
-        {"name": "Marianske Lazne", "coords": [49.9773, 12.7065], "images": ["/static/images/ml12.jpg","/static/images/ml24.jpg","/static/images/ml102.jpg"], "img_orient":"2"},
-        {"name": "Barselona", "coords": [41.3703, 2.1723], "images": ["/static/images/brsn2.jpg","/static/images/brsn1.jpg","/static/images/brsn3.jpg","/static/images/brsn4.jpg"], "img_orient":"2"}
+        {"name": "Regensburg 2019", "coords": [49.019874936422745, 12.093504368009864], "images": ["/static/images/germany3.jpg","/static/images/germany4.jpg"], "img_orient":"2"},
+        {"name": "Prague 2021", "coords": [50.087077829240336, 14.420699661549783], "images": ["/static/images/praha7.jpg","/static/images/praha10.jpg","/static/images/praha8.jpg","/static/images/praha9.jpg"], "img_orient":"2"},
+        {"name": "Rotenburg 2015", "coords": [49.373776337808934, 10.195805076292428], "images": [ "/static/images/rotenburg4.jpg"], "img_orient":"1"},
+        {"name": "Gannover 2011", "coords": [52.32595806606605, 9.804916448310456], "images": ["/static/images/gannover1-3.jpg","/static/images/gannover1-4.jpg"], "img_orient":"2"},
+        {"name": "Podgorica 2012", "coords": [42.43121104463073, 19.26102575823919], "images": ["/static/images/ostrog3.jpg","/static/images/kotor1.jpg"], "img_orient":"2"},
+        {"name": "Warsaw 2022","coords": [52.229575635274635, 21.013038892885927], "images": ["/static/images/warsaw1.jpg","/static/images/warsaw11.jpg"], "img_orient":"2"},
+        {"name": "Warsaw 2023 (Royal Lazienki Park)", "coords": [52.21460873842079, 21.03286039128743], "images": ["/static/images/warsaw-park-3.jpg","/static/images/warsaw-park-4.jpg","/static/images/warsaw-park-5.jpg","/static/images/warsaw-park-6.jpg"], "img_orient":"2"},
+        {"name": "Marianske Lazne 2024", "coords": [49.9773, 12.7065], "images": ["/static/images/ml12.jpg","/static/images/ml24.jpg","/static/images/ml102.jpg"], "img_orient":"2"},
+        {"name": "Barselona 2023", "coords": [41.3703, 2.1723], "images": ["/static/images/brsn2.jpg","/static/images/brsn1.jpg","/static/images/brsn3.jpg","/static/images/brsn4.jpg"], "img_orient":"2"}
      
     ]

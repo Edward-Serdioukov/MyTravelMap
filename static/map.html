@@ -12,21 +12,21 @@
     
     <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
     <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
-    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    <link rel="stylesheet" href="css/leaflet.awesome.rotate.min.css"/>
     
             <meta name="viewport" content="width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
             <style>
-                #map_c8f951dc6ae69c5241c296081b9bd1fc {
+                #map_e996e6eaf116e1c896380c411bcbc5a0 {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -36,8 +36,8 @@
                 .leaflet-container { font-size: 1rem; }
             </style>
         
-    <script src="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.css"/>
+    <script src="js/Control.FullScreen.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.fullscreen@3.0.0/Control.FullScreen.css"/>
 </head>
 <body>
     
@@ -56,23 +56,28 @@
         <p>To see the photo, you need to click on the marker. A popup window with small photos will open. 
         If you click on any photo in the popup, a new window with large photos will open.</p>
         <button onclick="document.getElementById('info').style.display='none';">Close</button>
+        <a href="/book" target="_blank">&#127758;</a>
+        <a href="/book-dates" target="_blank">&#128197;</a> 
     </div>
 </div>
     
-            <div class="folium-map" id="map_c8f951dc6ae69c5241c296081b9bd1fc" ></div>
+            <div class="folium-map" id="map_e996e6eaf116e1c896380c411bcbc5a0" ></div>
         
 </body>
 <script>
     
     
-            var map_c8f951dc6ae69c5241c296081b9bd1fc = L.map(
-                "map_c8f951dc6ae69c5241c296081b9bd1fc",
+            var map_e996e6eaf116e1c896380c411bcbc5a0 = L.map(
+                "map_e996e6eaf116e1c896380c411bcbc5a0",
                 {
                     center: [46.0, 17.0],
                     crs: L.CRS.EPSG3857,
-                    zoom: 4,
-                    zoomControl: true,
-                    preferCanvas: false,
+                    ...{
+  "zoom": 4,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
                 }
             );
 
@@ -80,279 +85,340 @@
 
         
     
-            var tile_layer_97a298f0bce56b44772b5902a8db992a = L.tileLayer(
+            var tile_layer_1653970d6d2d2aed6be69602461320df = L.tileLayer(
                 "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-                {"attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors", "detectRetina": false, "maxNativeZoom": 19, "maxZoom": 19, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
             );
         
     
-            tile_layer_97a298f0bce56b44772b5902a8db992a.addTo(map_c8f951dc6ae69c5241c296081b9bd1fc);
+            tile_layer_1653970d6d2d2aed6be69602461320df.addTo(map_e996e6eaf116e1c896380c411bcbc5a0);
         
     
-            var marker_56f78a9c39e39a2f0abca99c8097ae34 = L.marker(
+            var marker_d2b01f47eab3b962f23c00cfaaa292fb = L.marker(
                 [49.019874936422745, 12.093504368009864],
-                {}
-            ).addTo(map_c8f951dc6ae69c5241c296081b9bd1fc);
+                {
+}
+            ).addTo(map_e996e6eaf116e1c896380c411bcbc5a0);
         
     
-        var popup_91116c0455def1e15543b2bccf713438 = L.popup({"maxWidth": "100%"});
+        var popup_b464560cb3fc386647a96de18385f9c4 = L.popup({
+  "maxWidth": "100%",
+});
 
         
             
-                var html_03515907c62735cde083e3fefcf08b06 = $(`<div id="html_03515907c62735cde083e3fefcf08b06" style="width: 100.0%; height: 100.0%;">                     <div  class="filmstrip" id="image-popup" style='width:300px; height:410px; overflow-y: scroll;'>                 <b>Regensburg</b><br><a href="/gallery?images=%2Fstatic%2Fimages%2Fgermany3.jpg%2C%2Fstatic%2Fimages%2Fgermany4.jpg&title=Regensburg" target="_blank"><img src='/static/images/germany3.jpg' alt='Images' style='width:100%;'><img src='/static/images/germany4.jpg' alt='Images' style='width:100%;'></a></div></div>`)[0];
-                popup_91116c0455def1e15543b2bccf713438.setContent(html_03515907c62735cde083e3fefcf08b06);
+                var html_2a4ddb47043a6e1677d87205ddde8631 = $(`<div id="html_2a4ddb47043a6e1677d87205ddde8631" style="width: 100.0%; height: 100.0%;">                     <div  class="filmstrip" id="image-popup" style='width:300px; height:410px; overflow-y: scroll;'>                 <b>Regensburg</b><br><a href="/gallery?images=%2Fstatic%2Fimages%2Fgermany3.jpg%2C%2Fstatic%2Fimages%2Fgermany4.jpg&title=Regensburg" target="_blank"><img src='/static/images/germany3.jpg' alt='Images' style='width:100%;'><img src='/static/images/germany4.jpg' alt='Images' style='width:100%;'></a></div></div>`)[0];
+                popup_b464560cb3fc386647a96de18385f9c4.setContent(html_2a4ddb47043a6e1677d87205ddde8631);
             
         
 
-        marker_56f78a9c39e39a2f0abca99c8097ae34.bindPopup(popup_91116c0455def1e15543b2bccf713438)
+        marker_d2b01f47eab3b962f23c00cfaaa292fb.bindPopup(popup_b464560cb3fc386647a96de18385f9c4)
         ;
 
         
     
     
-            marker_56f78a9c39e39a2f0abca99c8097ae34.bindTooltip(
+            marker_d2b01f47eab3b962f23c00cfaaa292fb.bindTooltip(
                 `<div>
                      Regensburg
                  </div>`,
-                {"sticky": true}
+                {
+  "sticky": true,
+}
             );
         
     
-            var marker_49fb235a2ac1ec6a2a8fc6fabd603db8 = L.marker(
+            var marker_d724b614c950e971c4d88d27fc553a69 = L.marker(
                 [50.087077829240336, 14.420699661549783],
-                {}
-            ).addTo(map_c8f951dc6ae69c5241c296081b9bd1fc);
+                {
+}
+            ).addTo(map_e996e6eaf116e1c896380c411bcbc5a0);
         
     
-        var popup_77914ce4cc8816c1e98703bb0497b0a4 = L.popup({"maxWidth": "100%"});
+        var popup_0a70a1a0ba6fbe588738696e45bea481 = L.popup({
+  "maxWidth": "100%",
+});
 
         
             
-                var html_be8da0566c6e77f389777e58cc67a90a = $(`<div id="html_be8da0566c6e77f389777e58cc67a90a" style="width: 100.0%; height: 100.0%;">                     <div  class="filmstrip" id="image-popup" style='width:300px; height:410px; overflow-y: scroll;'>                 <b>Prague</b><br><a href="/gallery?images=%2Fstatic%2Fimages%2Fpraha7.jpg%2C%2Fstatic%2Fimages%2Fpraha10.jpg%2C%2Fstatic%2Fimages%2Fpraha8.jpg%2C%2Fstatic%2Fimages%2Fpraha9.jpg&title=Prague" target="_blank"><img src='/static/images/praha7.jpg' alt='Images' style='width:100%;'><img src='/static/images/praha10.jpg' alt='Images' style='width:100%;'><img src='/static/images/praha8.jpg' alt='Images' style='width:100%;'><img src='/static/images/praha9.jpg' alt='Images' style='width:100%;'></a></div></div>`)[0];
-                popup_77914ce4cc8816c1e98703bb0497b0a4.setContent(html_be8da0566c6e77f389777e58cc67a90a);
+                var html_9d960f4f2ab2597b170037b8adf46b82 = $(`<div id="html_9d960f4f2ab2597b170037b8adf46b82" style="width: 100.0%; height: 100.0%;">                     <div  class="filmstrip" id="image-popup" style='width:300px; height:410px; overflow-y: scroll;'>                 <b>Prague</b><br><a href="/gallery?images=%2Fstatic%2Fimages%2Fpraha7.jpg%2C%2Fstatic%2Fimages%2Fpraha10.jpg%2C%2Fstatic%2Fimages%2Fpraha8.jpg%2C%2Fstatic%2Fimages%2Fpraha9.jpg&title=Prague" target="_blank"><img src='/static/images/praha7.jpg' alt='Images' style='width:100%;'><img src='/static/images/praha10.jpg' alt='Images' style='width:100%;'><img src='/static/images/praha8.jpg' alt='Images' style='width:100%;'><img src='/static/images/praha9.jpg' alt='Images' style='width:100%;'></a></div></div>`)[0];
+                popup_0a70a1a0ba6fbe588738696e45bea481.setContent(html_9d960f4f2ab2597b170037b8adf46b82);
             
         
 
-        marker_49fb235a2ac1ec6a2a8fc6fabd603db8.bindPopup(popup_77914ce4cc8816c1e98703bb0497b0a4)
+        marker_d724b614c950e971c4d88d27fc553a69.bindPopup(popup_0a70a1a0ba6fbe588738696e45bea481)
         ;
 
         
     
     
-            marker_49fb235a2ac1ec6a2a8fc6fabd603db8.bindTooltip(
+            marker_d724b614c950e971c4d88d27fc553a69.bindTooltip(
                 `<div>
                      Prague
                  </div>`,
-                {"sticky": true}
+                {
+  "sticky": true,
+}
             );
         
     
-            var marker_4a9187004859e56457d6329c29b4a5eb = L.marker(
+            var marker_e250e3a5a938bb165c5cc3f742c84495 = L.marker(
                 [49.373776337808934, 10.195805076292428],
-                {}
-            ).addTo(map_c8f951dc6ae69c5241c296081b9bd1fc);
+                {
+}
+            ).addTo(map_e996e6eaf116e1c896380c411bcbc5a0);
         
     
-        var popup_0ca0f3449d24c9741ae2fdc804de7032 = L.popup({"maxWidth": "100%"});
+        var popup_9b6753a200d4e098ac5c8ce4ef8b99ee = L.popup({
+  "maxWidth": "100%",
+});
 
         
             
-                var html_c73b68eb772a8f8bb1ad608959984e64 = $(`<div id="html_c73b68eb772a8f8bb1ad608959984e64" style="width: 100.0%; height: 100.0%;">                 <div  class="filmstrip" id="image-popup" style='width:300px; height:410px; overflow-y: scroll;'>                 <b>Rotenburg</b><br><a href="/gallery?images=%2Fstatic%2Fimages%2Frotenburg4.jpg&title=Rotenburg" target="_blank"><img src='/static/images/rotenburg4.jpg' alt='Images' style='width:100%;'/></a></div></div>`)[0];
-                popup_0ca0f3449d24c9741ae2fdc804de7032.setContent(html_c73b68eb772a8f8bb1ad608959984e64);
+                var html_de5f21f37527b12f5d246d4e354f43bf = $(`<div id="html_de5f21f37527b12f5d246d4e354f43bf" style="width: 100.0%; height: 100.0%;">                 <div  class="filmstrip" id="image-popup" style='width:300px; height:410px; overflow-y: scroll;'>                 <b>Rotenburg</b><br><a href="/gallery?images=%2Fstatic%2Fimages%2Frotenburg4.jpg&title=Rotenburg" target="_blank"><img src='/static/images/rotenburg4.jpg' alt='Images' style='width:100%;'/></a></div></div>`)[0];
+                popup_9b6753a200d4e098ac5c8ce4ef8b99ee.setContent(html_de5f21f37527b12f5d246d4e354f43bf);
             
         
 
-        marker_4a9187004859e56457d6329c29b4a5eb.bindPopup(popup_0ca0f3449d24c9741ae2fdc804de7032)
+        marker_e250e3a5a938bb165c5cc3f742c84495.bindPopup(popup_9b6753a200d4e098ac5c8ce4ef8b99ee)
         ;
 
         
     
     
-            marker_4a9187004859e56457d6329c29b4a5eb.bindTooltip(
+            marker_e250e3a5a938bb165c5cc3f742c84495.bindTooltip(
                 `<div>
                      Rotenburg
                  </div>`,
-                {"sticky": true}
+                {
+  "sticky": true,
+}
             );
         
     
-            var marker_7f40c0500d65dd2c523f74462967b420 = L.marker(
+            var marker_3fe309703df00f821510dd1941a24b7d = L.marker(
                 [52.32595806606605, 9.804916448310456],
-                {}
-            ).addTo(map_c8f951dc6ae69c5241c296081b9bd1fc);
+                {
+}
+            ).addTo(map_e996e6eaf116e1c896380c411bcbc5a0);
         
     
-        var popup_a5f5fff2cc061be6c9548204c4f48c07 = L.popup({"maxWidth": "100%"});
+        var popup_ac3a752a8bfc29cc6683de2c64d7d624 = L.popup({
+  "maxWidth": "100%",
+});
 
         
             
-                var html_19c3912b907c5deead6bdddbfa311b98 = $(`<div id="html_19c3912b907c5deead6bdddbfa311b98" style="width: 100.0%; height: 100.0%;">                     <div  class="filmstrip" id="image-popup" style='width:300px; height:410px; overflow-y: scroll;'>                 <b>Gannover</b><br><a href="/gallery?images=%2Fstatic%2Fimages%2Fgannover1-3.jpg%2C%2Fstatic%2Fimages%2Fgannover1-4.jpg&title=Gannover" target="_blank"><img src='/static/images/gannover1-3.jpg' alt='Images' style='width:100%;'><img src='/static/images/gannover1-4.jpg' alt='Images' style='width:100%;'></a></div></div>`)[0];
-                popup_a5f5fff2cc061be6c9548204c4f48c07.setContent(html_19c3912b907c5deead6bdddbfa311b98);
+                var html_b6eccc6015aee5a9b1bb2a1334d30d3a = $(`<div id="html_b6eccc6015aee5a9b1bb2a1334d30d3a" style="width: 100.0%; height: 100.0%;">                     <div  class="filmstrip" id="image-popup" style='width:300px; height:410px; overflow-y: scroll;'>                 <b>Gannover</b><br><a href="/gallery?images=%2Fstatic%2Fimages%2Fgannover1-3.jpg%2C%2Fstatic%2Fimages%2Fgannover1-4.jpg&title=Gannover" target="_blank"><img src='/static/images/gannover1-3.jpg' alt='Images' style='width:100%;'><img src='/static/images/gannover1-4.jpg' alt='Images' style='width:100%;'></a></div></div>`)[0];
+                popup_ac3a752a8bfc29cc6683de2c64d7d624.setContent(html_b6eccc6015aee5a9b1bb2a1334d30d3a);
             
         
 
-        marker_7f40c0500d65dd2c523f74462967b420.bindPopup(popup_a5f5fff2cc061be6c9548204c4f48c07)
+        marker_3fe309703df00f821510dd1941a24b7d.bindPopup(popup_ac3a752a8bfc29cc6683de2c64d7d624)
         ;
 
         
     
     
-            marker_7f40c0500d65dd2c523f74462967b420.bindTooltip(
+            marker_3fe309703df00f821510dd1941a24b7d.bindTooltip(
                 `<div>
                      Gannover
                  </div>`,
-                {"sticky": true}
+                {
+  "sticky": true,
+}
             );
         
     
-            var marker_c894d6924251d16e3c2c638b2311a833 = L.marker(
+            var marker_01605ed696fb9c77db94a090465bfd89 = L.marker(
                 [42.43121104463073, 19.26102575823919],
-                {}
-            ).addTo(map_c8f951dc6ae69c5241c296081b9bd1fc);
+                {
+}
+            ).addTo(map_e996e6eaf116e1c896380c411bcbc5a0);
         
     
-        var popup_69a3f0c7c77d836b8565b4f8700fcf7c = L.popup({"maxWidth": "100%"});
+        var popup_1aac1b14d3e8d48657ce006e39b908e3 = L.popup({
+  "maxWidth": "100%",
+});
 
         
             
-                var html_5197d704d1874c048664c6af81633983 = $(`<div id="html_5197d704d1874c048664c6af81633983" style="width: 100.0%; height: 100.0%;">                     <div  class="filmstrip" id="image-popup" style='width:300px; height:410px; overflow-y: scroll;'>                 <b>Podgorica</b><br><a href="/gallery?images=%2Fstatic%2Fimages%2Fostrog3.jpg%2C%2Fstatic%2Fimages%2Fkotor1.jpg&title=Podgorica" target="_blank"><img src='/static/images/ostrog3.jpg' alt='Images' style='width:100%;'><img src='/static/images/kotor1.jpg' alt='Images' style='width:100%;'></a></div></div>`)[0];
-                popup_69a3f0c7c77d836b8565b4f8700fcf7c.setContent(html_5197d704d1874c048664c6af81633983);
+                var html_a79d3c8b048e5c17e60f7877c481b0b5 = $(`<div id="html_a79d3c8b048e5c17e60f7877c481b0b5" style="width: 100.0%; height: 100.0%;">                     <div  class="filmstrip" id="image-popup" style='width:300px; height:410px; overflow-y: scroll;'>                 <b>Podgorica</b><br><a href="/gallery?images=%2Fstatic%2Fimages%2Fostrog3.jpg%2C%2Fstatic%2Fimages%2Fkotor1.jpg&title=Podgorica" target="_blank"><img src='/static/images/ostrog3.jpg' alt='Images' style='width:100%;'><img src='/static/images/kotor1.jpg' alt='Images' style='width:100%;'></a></div></div>`)[0];
+                popup_1aac1b14d3e8d48657ce006e39b908e3.setContent(html_a79d3c8b048e5c17e60f7877c481b0b5);
             
         
 
-        marker_c894d6924251d16e3c2c638b2311a833.bindPopup(popup_69a3f0c7c77d836b8565b4f8700fcf7c)
+        marker_01605ed696fb9c77db94a090465bfd89.bindPopup(popup_1aac1b14d3e8d48657ce006e39b908e3)
         ;
 
         
     
     
-            marker_c894d6924251d16e3c2c638b2311a833.bindTooltip(
+            marker_01605ed696fb9c77db94a090465bfd89.bindTooltip(
                 `<div>
                      Podgorica
                  </div>`,
-                {"sticky": true}
+                {
+  "sticky": true,
+}
             );
         
     
-            var marker_872dec51bdab788a7ba15a79465729f9 = L.marker(
+            var marker_9d692c73c8f9e4a27f1524688778e966 = L.marker(
                 [52.229575635274635, 21.013038892885927],
-                {}
-            ).addTo(map_c8f951dc6ae69c5241c296081b9bd1fc);
+                {
+}
+            ).addTo(map_e996e6eaf116e1c896380c411bcbc5a0);
         
     
-        var popup_3af0e092ff9fa764580764f016216675 = L.popup({"maxWidth": "100%"});
+        var popup_9b833aa0c1700ffb4c65f032c9aac797 = L.popup({
+  "maxWidth": "100%",
+});
 
         
             
-                var html_537cf55093a23cba3b5d6054d555c97b = $(`<div id="html_537cf55093a23cba3b5d6054d555c97b" style="width: 100.0%; height: 100.0%;">                     <div  class="filmstrip" id="image-popup" style='width:300px; height:410px; overflow-y: scroll;'>                 <b>Warsaw</b><br><a href="/gallery?images=%2Fstatic%2Fimages%2Fwarsaw1.jpg%2C%2Fstatic%2Fimages%2Fwarsaw11.jpg&title=Warsaw" target="_blank"><img src='/static/images/warsaw1.jpg' alt='Images' style='width:100%;'><img src='/static/images/warsaw11.jpg' alt='Images' style='width:100%;'></a></div></div>`)[0];
-                popup_3af0e092ff9fa764580764f016216675.setContent(html_537cf55093a23cba3b5d6054d555c97b);
+                var html_d1f4bfcb314c5a1dd1dc6e2459f88932 = $(`<div id="html_d1f4bfcb314c5a1dd1dc6e2459f88932" style="width: 100.0%; height: 100.0%;">                     <div  class="filmstrip" id="image-popup" style='width:300px; height:410px; overflow-y: scroll;'>                 <b>Warsaw</b><br><a href="/gallery?images=%2Fstatic%2Fimages%2Fwarsaw1.jpg%2C%2Fstatic%2Fimages%2Fwarsaw11.jpg&title=Warsaw" target="_blank"><img src='/static/images/warsaw1.jpg' alt='Images' style='width:100%;'><img src='/static/images/warsaw11.jpg' alt='Images' style='width:100%;'></a></div></div>`)[0];
+                popup_9b833aa0c1700ffb4c65f032c9aac797.setContent(html_d1f4bfcb314c5a1dd1dc6e2459f88932);
             
         
 
-        marker_872dec51bdab788a7ba15a79465729f9.bindPopup(popup_3af0e092ff9fa764580764f016216675)
+        marker_9d692c73c8f9e4a27f1524688778e966.bindPopup(popup_9b833aa0c1700ffb4c65f032c9aac797)
         ;
 
         
     
     
-            marker_872dec51bdab788a7ba15a79465729f9.bindTooltip(
+            marker_9d692c73c8f9e4a27f1524688778e966.bindTooltip(
                 `<div>
                      Warsaw
                  </div>`,
-                {"sticky": true}
+                {
+  "sticky": true,
+}
             );
         
     
-            var marker_43c54f142b970a80ee4533b7e91d6a5a = L.marker(
+            var marker_215d555e7399f27e443b7b5b38ebb086 = L.marker(
                 [52.21460873842079, 21.03286039128743],
-                {}
-            ).addTo(map_c8f951dc6ae69c5241c296081b9bd1fc);
+                {
+}
+            ).addTo(map_e996e6eaf116e1c896380c411bcbc5a0);
         
     
-        var popup_6b80db4b93bc3a54cd5422cc22bc7139 = L.popup({"maxWidth": "100%"});
+        var popup_f5b768b9e4196164dc50ed6c052d6f21 = L.popup({
+  "maxWidth": "100%",
+});
 
         
             
-                var html_e561dbe53de2344644d6adf5187391e2 = $(`<div id="html_e561dbe53de2344644d6adf5187391e2" style="width: 100.0%; height: 100.0%;">                     <div  class="filmstrip" id="image-popup" style='width:300px; height:410px; overflow-y: scroll;'>                 <b>Warsaw (Royal Lazienki Park)</b><br><a href="/gallery?images=%2Fstatic%2Fimages%2Fwarsaw-park-3.jpg%2C%2Fstatic%2Fimages%2Fwarsaw-park-4.jpg%2C%2Fstatic%2Fimages%2Fwarsaw-park-5.jpg%2C%2Fstatic%2Fimages%2Fwarsaw-park-6.jpg&title=Warsaw+%28Royal+Lazienki+Park%29" target="_blank"><img src='/static/images/warsaw-park-3.jpg' alt='Images' style='width:100%;'><img src='/static/images/warsaw-park-4.jpg' alt='Images' style='width:100%;'><img src='/static/images/warsaw-park-5.jpg' alt='Images' style='width:100%;'><img src='/static/images/warsaw-park-6.jpg' alt='Images' style='width:100%;'></a></div></div>`)[0];
-                popup_6b80db4b93bc3a54cd5422cc22bc7139.setContent(html_e561dbe53de2344644d6adf5187391e2);
+                var html_d570a0378a96c6452a7df2a367a3e279 = $(`<div id="html_d570a0378a96c6452a7df2a367a3e279" style="width: 100.0%; height: 100.0%;">                     <div  class="filmstrip" id="image-popup" style='width:300px; height:410px; overflow-y: scroll;'>                 <b>Warsaw (Royal Lazienki Park)</b><br><a href="/gallery?images=%2Fstatic%2Fimages%2Fwarsaw-park-3.jpg%2C%2Fstatic%2Fimages%2Fwarsaw-park-4.jpg%2C%2Fstatic%2Fimages%2Fwarsaw-park-5.jpg%2C%2Fstatic%2Fimages%2Fwarsaw-park-6.jpg&title=Warsaw+%28Royal+Lazienki+Park%29" target="_blank"><img src='/static/images/warsaw-park-3.jpg' alt='Images' style='width:100%;'><img src='/static/images/warsaw-park-4.jpg' alt='Images' style='width:100%;'><img src='/static/images/warsaw-park-5.jpg' alt='Images' style='width:100%;'><img src='/static/images/warsaw-park-6.jpg' alt='Images' style='width:100%;'></a></div></div>`)[0];
+                popup_f5b768b9e4196164dc50ed6c052d6f21.setContent(html_d570a0378a96c6452a7df2a367a3e279);
             
         
 
-        marker_43c54f142b970a80ee4533b7e91d6a5a.bindPopup(popup_6b80db4b93bc3a54cd5422cc22bc7139)
+        marker_215d555e7399f27e443b7b5b38ebb086.bindPopup(popup_f5b768b9e4196164dc50ed6c052d6f21)
         ;
 
         
     
     
-            marker_43c54f142b970a80ee4533b7e91d6a5a.bindTooltip(
+            marker_215d555e7399f27e443b7b5b38ebb086.bindTooltip(
                 `<div>
                      Warsaw (Royal Lazienki Park)
                  </div>`,
-                {"sticky": true}
+                {
+  "sticky": true,
+}
             );
         
     
-            var marker_85108df229e9905893a7cad4e454ee17 = L.marker(
+            var marker_c5b39110200a813b1b9ee1b370bf8791 = L.marker(
                 [49.9773, 12.7065],
-                {}
-            ).addTo(map_c8f951dc6ae69c5241c296081b9bd1fc);
+                {
+}
+            ).addTo(map_e996e6eaf116e1c896380c411bcbc5a0);
         
     
-        var popup_aa68274415c99767eb54b5f0c3925c33 = L.popup({"maxWidth": "100%"});
+        var popup_80ecd058734437731359c4d5e4382c7d = L.popup({
+  "maxWidth": "100%",
+});
 
         
             
-                var html_ad93a7bd15c0075a41b41657e493c724 = $(`<div id="html_ad93a7bd15c0075a41b41657e493c724" style="width: 100.0%; height: 100.0%;">                     <div  class="filmstrip" id="image-popup" style='width:300px; height:410px; overflow-y: scroll;'>                 <b>Marianske Lazne</b><br><a href="/gallery?images=%2Fstatic%2Fimages%2Fml12.jpg%2C%2Fstatic%2Fimages%2Fml24.jpg%2C%2Fstatic%2Fimages%2Fml102.jpg&title=Marianske+Lazne" target="_blank"><img src='/static/images/ml12.jpg' alt='Images' style='width:100%;'><img src='/static/images/ml24.jpg' alt='Images' style='width:100%;'><img src='/static/images/ml102.jpg' alt='Images' style='width:100%;'></a></div></div>`)[0];
-                popup_aa68274415c99767eb54b5f0c3925c33.setContent(html_ad93a7bd15c0075a41b41657e493c724);
+                var html_118ecd8f13b79ec0fc7230bbf632ebd5 = $(`<div id="html_118ecd8f13b79ec0fc7230bbf632ebd5" style="width: 100.0%; height: 100.0%;">                     <div  class="filmstrip" id="image-popup" style='width:300px; height:410px; overflow-y: scroll;'>                 <b>Marianske Lazne</b><br><a href="/gallery?images=%2Fstatic%2Fimages%2Fml12.jpg%2C%2Fstatic%2Fimages%2Fml24.jpg%2C%2Fstatic%2Fimages%2Fml102.jpg&title=Marianske+Lazne" target="_blank"><img src='/static/images/ml12.jpg' alt='Images' style='width:100%;'><img src='/static/images/ml24.jpg' alt='Images' style='width:100%;'><img src='/static/images/ml102.jpg' alt='Images' style='width:100%;'></a></div></div>`)[0];
+                popup_80ecd058734437731359c4d5e4382c7d.setContent(html_118ecd8f13b79ec0fc7230bbf632ebd5);
             
         
 
-        marker_85108df229e9905893a7cad4e454ee17.bindPopup(popup_aa68274415c99767eb54b5f0c3925c33)
+        marker_c5b39110200a813b1b9ee1b370bf8791.bindPopup(popup_80ecd058734437731359c4d5e4382c7d)
         ;
 
         
     
     
-            marker_85108df229e9905893a7cad4e454ee17.bindTooltip(
+            marker_c5b39110200a813b1b9ee1b370bf8791.bindTooltip(
                 `<div>
                      Marianske Lazne
                  </div>`,
-                {"sticky": true}
+                {
+  "sticky": true,
+}
             );
         
     
-            var marker_ab81b9ff85473432df24c4d20a69d7e8 = L.marker(
+            var marker_4ef09d1eb4be6b84907b8830830e6386 = L.marker(
                 [41.3703, 2.1723],
-                {}
-            ).addTo(map_c8f951dc6ae69c5241c296081b9bd1fc);
+                {
+}
+            ).addTo(map_e996e6eaf116e1c896380c411bcbc5a0);
         
     
-        var popup_aab9d3d0365f132d04d6ea4cb765c504 = L.popup({"maxWidth": "100%"});
+        var popup_64a870f808a6faed688b5d87310662ca = L.popup({
+  "maxWidth": "100%",
+});
 
         
             
-                var html_91d0d4ff83ef9e0474ccd8b4ea981713 = $(`<div id="html_91d0d4ff83ef9e0474ccd8b4ea981713" style="width: 100.0%; height: 100.0%;">                     <div  class="filmstrip" id="image-popup" style='width:300px; height:410px; overflow-y: scroll;'>                 <b>Barselona</b><br><a href="/gallery?images=%2Fstatic%2Fimages%2Fbrsn2.jpg%2C%2Fstatic%2Fimages%2Fbrsn1.jpg%2C%2Fstatic%2Fimages%2Fbrsn3.jpg%2C%2Fstatic%2Fimages%2Fbrsn4.jpg&title=Barselona" target="_blank"><img src='/static/images/brsn2.jpg' alt='Images' style='width:100%;'><img src='/static/images/brsn1.jpg' alt='Images' style='width:100%;'><img src='/static/images/brsn3.jpg' alt='Images' style='width:100%;'><img src='/static/images/brsn4.jpg' alt='Images' style='width:100%;'></a></div></div>`)[0];
-                popup_aab9d3d0365f132d04d6ea4cb765c504.setContent(html_91d0d4ff83ef9e0474ccd8b4ea981713);
+                var html_aec1aa58c3f03c714d25e4b63b44e65c = $(`<div id="html_aec1aa58c3f03c714d25e4b63b44e65c" style="width: 100.0%; height: 100.0%;">                     <div  class="filmstrip" id="image-popup" style='width:300px; height:410px; overflow-y: scroll;'>                 <b>Barselona</b><br><a href="/gallery?images=%2Fstatic%2Fimages%2Fbrsn2.jpg%2C%2Fstatic%2Fimages%2Fbrsn1.jpg%2C%2Fstatic%2Fimages%2Fbrsn3.jpg%2C%2Fstatic%2Fimages%2Fbrsn4.jpg&title=Barselona" target="_blank"><img src='/static/images/brsn2.jpg' alt='Images' style='width:100%;'><img src='/static/images/brsn1.jpg' alt='Images' style='width:100%;'><img src='/static/images/brsn3.jpg' alt='Images' style='width:100%;'><img src='/static/images/brsn4.jpg' alt='Images' style='width:100%;'></a></div></div>`)[0];
+                popup_64a870f808a6faed688b5d87310662ca.setContent(html_aec1aa58c3f03c714d25e4b63b44e65c);
             
         
 
-        marker_ab81b9ff85473432df24c4d20a69d7e8.bindPopup(popup_aab9d3d0365f132d04d6ea4cb765c504)
+        marker_4ef09d1eb4be6b84907b8830830e6386.bindPopup(popup_64a870f808a6faed688b5d87310662ca)
         ;
 
         
     
     
-            marker_ab81b9ff85473432df24c4d20a69d7e8.bindTooltip(
+            marker_4ef09d1eb4be6b84907b8830830e6386.bindTooltip(
                 `<div>
                      Barselona
                  </div>`,
-                {"sticky": true}
+                {
+  "sticky": true,
+}
             );
         
     
             L.control.fullscreen(
-                {"forceSeparateButton": true, "position": "topright", "title": "Expand me", "titleCancel": "Exit me"}
-            ).addTo(map_c8f951dc6ae69c5241c296081b9bd1fc);
+                {
+  "position": "topright",
+  "title": "Expand me",
+  "titleCancel": "Exit me",
+  "forceSeparateButton": true,
+}
+            ).addTo(map_e996e6eaf116e1c896380c411bcbc5a0);
         
 </script>
 </html>

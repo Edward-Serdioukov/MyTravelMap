@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timeline</title>
+  <style>
+    /* Стили контейнера книги */
+    .book-container {
+      all: unset;
+      flex: initial;
+      display: initial;
+    }
+    /* Basic styling for the timeline */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+    }
+    .year {
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .year-title {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px;
+      margin: 0;
+      cursor: pointer;
+    }
+    .place {
+      margin-bottom: 10px;
+    }
+    .place-title {
+      font-weight: bold;
+      margin-left: 2em;
+      background-color: #f39c12;
+      color: white;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+    .place-title a {
+      text-decoration: none;
+      color: white;
+    }
+    .place-title a:hover {
+      text-decoration: underline;
+    }
+    .entry {
+      margin-bottom: 5px;
+    }
+    .images {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-left: 2em;
+      margin-top: 1em;
+    }
+    .images img {
+      height: 350px;
+      display: block;
+      width: auto;
+      border: 2px solid #ccc;
+    }
+    /* Секции с фотографиями изначально скрыты */
+    .photos-container {
+      display: none;
+    }
+    /* Стили для кнопок переключения внутри места */
+    .toggle-button {
+      cursor: pointer;
+      margin-left: 10px;
+      font-size: 16px;
+      user-select: none;
+    }
+    /* Кнопка "Открыть все/Закрыть все" */
+    .toggle-all-button {
+      margin-bottom: 20px;
+      padding: 10px 15px;
+      background-color: #f39c12;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    /* Прочие стили */
+    .country-links {
+      margin-bottom: 20px;
+    }
+    .country-links a {
+      margin-right: 15px;
+      text-decoration: none;
+      color: #3498db;
+    }
+    .country-links a:hover {
+      text-decoration: underline;
+    }
+    /*
+    * Styles for the country blocks
+    */
+    .country {
+        margin-left: 1em;
+        margin-bottom: 1em;
+    }
+    .country-name {
+        background-color: #3498db;  /* Цвет фона */
+        color: white;               /* Цвет текста */
+        padding: 10px;              /* Отступы внутри элемента */
+        margin: 2;                  /* Убираем внешние отступы, если не нужно */
+    }
+    .close-button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: transparent;
+      border: none;
+      color: black;
+      font-size: 24px;
+      cursor: pointer;
+    }
+    /* Media query for mobile devices */
+    @media (max-width: 800px) {
+    .images img {
+            max-height: 80vh;
+            max-width: 80vw;
+            width: auto;
+            height: auto;
+            margin: auto;
+        }
+    }
+  </style>
+</head>
+<body id="top">
+  <button class="close-button" onclick="window.close()">×</button>
+  <div class="book-container">
+    <h1>Travel Timeline</h1>
+    <!-- Кнопка для открытия/закрытия всех секций -->
+    <button id="toggle-all" class="toggle-all-button" onclick="toggleAllPhotos()">Show all photos</button>
+    
+    <!-- Навигационное меню -->
+    <div class="country-links">
+      {% for year, places in timeline_data.items() %}
+        <a href="#{{ year }}">{{ year }}</a>
+      {% endfor %}
+    </div>
+    <div class="timeline">
+      {% for year, countries in timeline_data.items() %}
+      <div class="year" id="{{ year }}">
+        <div class="year-title" onclick="window.scrollTo(0, 0);">{{ year }}</div>
+        {% for country, places in countries.items() %}
+        <div class="country">
+          <h3 class="country-name">{{ country }}</h3>
+          {% for place, entries in places.items() %}
+          <div class="place">
+            <div class="place-title">
+              <a href="/gallery?images={% for img in entries[0].images %}{{ img|urlencode }}{% if not loop.last %},{% endif %}{% endfor %}&title={{ place|urlencode }}" target="_blank">
+                {{ place }}
+              </a>
+              <!-- Кнопка для сворачивания/разворачивания фотографий -->
+              <span class="toggle-button" onclick="togglePhotos(this)">▲</span>
+            </div>
+            {% if is_img == 'true' %}
+            <!-- Контейнер для фотографий, изначально скрытый -->
+            <div class="photos-container">
+              {% for entry in entries %}
+              <div class="entry">
+                <!-- Координаты: {{ entry.coords }} -->
+                <div class="images">
+                  {% for image in entry.images %}
+                  <img src="{{ image }}" alt="Photo {{ place }}" class="images">
+                  {% endfor %}
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <script>
+    // Функция для переключения видимости одной секции с фотографиями
+    function togglePhotos(button) {
+      const placeDiv = button.closest('.place');
+      const photosContainer = placeDiv.querySelector('.photos-container');
+      if (photosContainer) {
+        const currentDisplay = window.getComputedStyle(photosContainer).display;
+        if (currentDisplay !== 'none') {
+          photosContainer.style.display = 'none';
+          button.textContent = '▲';
+        } else {
+          photosContainer.style.display = 'block';
+          button.textContent = '▼';
+        }
+      }
+      event.stopPropagation();
+    }
+
+    // Функция для открытия/закрытия всех секций
+    function toggleAllPhotos() {
+      const toggleAllBtn = document.getElementById('toggle-all');
+      const containers = document.querySelectorAll('.photos-container');
+      const toggleButtons = document.querySelectorAll('.toggle-button');
+
+      if (toggleAllBtn.innerText.trim() === "Show all photos") {
+        // Открываем все секции
+        containers.forEach(function(container) {
+          container.style.display = 'block';
+        });
+        toggleButtons.forEach(function(button) {
+          button.textContent = '▼';
+        });
+        toggleAllBtn.textContent = "Hide all photos";
+      } else {
+        // Закрываем все секции
+        containers.forEach(function(container) {
+          container.style.display = 'none';
+        });
+        toggleButtons.forEach(function(button) {
+          button.textContent = '▲';
+        });
+        toggleAllBtn.textContent = "Show all photos";
+      }
+    }
+  </script>
+</body>
+</html>

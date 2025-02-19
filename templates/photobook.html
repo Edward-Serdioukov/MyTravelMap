@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photobook by countries and cities</title>
+    <style>
+
+    /*
+    * Styles for the photobook page
+    */
+
+    /*
+    * The container for the whole book
+    */
+    .book-container {
+        all: unset; /* отменяет все стили родителя */
+        flex: initial;
+        display: initial;
+    }
+
+    /*
+    * Styles for the country blocks
+    */
+    .country {
+        margin-bottom: 2em;
+        position: relative; /* Позиционирование для стрелки */
+      }
+    .country-name {
+        background-color: #4CAF50;  /* Цвет фона */
+        color: white;               /* Цвет текста */
+        padding: 10px;              /* Отступы внутри элемента */
+        margin: 0;                  /* Убираем внешние отступы, если не нужно */
+      }
+
+    /*
+    * Styles for the city blocks
+    */
+    .city {
+        margin-left: 1em;
+        margin-bottom: 1em;
+      }
+
+    /*
+    * Styles for the city names
+    */
+    .city-name {
+        background-color: #3498db;  /* Цвет фона */
+        color: white;               /* Цвет текста */
+        padding: 10px;              /* Отступы внутри элемента */
+        margin: 2;                  /* Убираем внешние отступы, если не нужно */
+      }
+
+    /*
+    * Styles for the place names
+    */
+    .place-name {
+        margin-left: 2em;
+        font-weight: bold;
+        background-color: #f39c12;  /* Цвет фона */
+        color: white;               /* Цвет текста */
+        padding: 10px;              /* Отступы внутри элемента */
+        margin: 2;                  /* Убираем внешние отступы, если не нужно */
+
+      }
+
+    /*
+    * Styles for the images
+    */
+    .images {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin-left: 2em;
+        margin-top: 1em;
+    }
+    .images img {
+       height: 350px;        /* жёсткая высота */
+       display: block;
+       width: auto;
+       border: 2px solid #ccc;
+     }
+    /*
+    * Styles for the photo masonry
+    */
+    .photo-masonry {
+       column-count: 4;     /* кол-во колонок */
+       column-gap: 10px;    /* промежуток между колонками */
+     }
+
+    /*
+    * Styles for the images in the photo masonry
+    */
+    .photo-masonry img {
+       width: 100%;         /* важно: чтоб картинка была шириной всей «колонки» */
+       display: block; 
+       margin-bottom: 10px; /* отступ между изображениями по вертикали */
+       border: 1px solid #ccc; /* например, тонкая рамка */
+     }
+    /*
+    * Styles for the links
+    */
+    .country-links {
+        margin-bottom: 20px;
+    }
+    .country-links a {
+        margin-right: 15px;
+        text-decoration: none;
+        color: #3498db;
+    }
+    .country-links a:hover {
+        text-decoration: underline;
+    }
+    /*
+    * Styles for the links inside place.name
+    */
+    .place-name a {
+        text-decoration: none; /* Убираем подчеркивание для ссылок в place.name */
+        color: white;        /* Цвет ссылок */
+    }
+    .place-name a:hover {
+        text-decoration: underline; /* Подчеркивание при наведении на ссылку в place.name */
+    }
+    /*
+    * Styles for the back to top button
+    */
+    .back-to-top {
+        cursor: pointer;
+        font-size: 20px;
+        color: white; 
+        margin-left: 10px;
+    }
+    .back-to-top:hover {
+        text-decoration: underline;
+    }
+    /*
+    * Styles for the scroll to top icon
+    */
+    .scroll-to-top {
+        position: absolute;    /* Абсолютное позиционирование */
+        top: 50%;             /* Отступ сверху */
+        right: -30px;           /* Немного смещаем стрелку влево от блока */
+        cursor: pointer;
+        font-size: 20px;
+        color: white; 
+        transform: translateY(-50%); /* Центрируем по вертикали с учетом высоты стрелки */
+      }
+      .scroll-to-top:hover {
+        text-decoration: underline;
+      }
+      .close-button {
+              position: absolute;
+              top: 20px;
+              right: 20px;
+              background-color: transparent;
+              border: none;
+              color: black;
+              font-size: 24px;
+              cursor: pointer;
+          }
+    /* Media query for mobile devices */
+    @media (max-width: 800px) {
+        .images img {
+                max-height: 80vh;
+                max-width: 80vw;
+                width: auto;
+                height: auto;
+                margin: auto;
+            }
+    }
+    </style>
+</head>
+<body id="top">
+    <button class="close-button" onclick="window.close()">×</button>
+
+<div class="book-container">
+<h1>Travel Countries</h1>
+<div class="country-links">
+  {% for country, cities in countries.items() %}
+      <a href="#{{ country }}">{{ country }}</a>
+  {% endfor %}
+</div>
+    {% for country, cities in countries.items() %}
+        <div class="country"  id="{{ country }}">
+            <span class="scroll-to-top" onclick="window.scrollTo(0, 0);">↑</span>
+            <h2 class="country-name" onclick="window.scrollTo(0, 0);">{{ country }}</h2>
+            
+            {% for city, items in cities.items() %}
+                <div class="city">
+                    <h3 class="city-name">{{ city }}</h3>
+                    
+                    {% for place in items %}
+                        <div class="place">
+                            <div class="place-name">
+                                <a href="/gallery?images={% for img in place.images %}{{ img|urlencode }}{% if not loop.last %},{% endif %}{% endfor %}&title={{ place.name|urlencode }}" target="_blank">
+                                    {{ place.name }}
+                                </a>
+                            </div>
+
+                            
+                            <div class="images">
+                                {% for img in place.images %}
+                                    <img src="{{ img }}" alt="Photo {{ place.name }}" class="images">
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+
+   {% endfor %}
+   </div>
+</body>
+</html>
