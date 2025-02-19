@@ -273,7 +273,7 @@ def extract_year(name):
                 years.add(str(range_years[1]))
 
     # Return a list of years, or None if no years found
-    return list(years) if years else None
+    return list(years) if years else None  
 
 
 def extract_place(name):
