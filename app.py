@@ -6,7 +6,7 @@ import urllib.parse
 from collections import defaultdict
 import re
 
-app = Flask(__name__)
+app = Flask(__name__) 
 
 
 with open('places_visited.json', 'r') as f:
