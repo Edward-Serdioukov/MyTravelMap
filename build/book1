@@ -1,0 +1,505 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3KG3SZL4EF"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-3KG3SZL4EF');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="/static/icons/icon_144x144.png" type="image/png">
+    <link rel="icon" href="/static/icons/icon_192x192.png" type="image/png">
+    <link rel="icon" href="/static/icons/icon_512x512.png" type="image/png">
+    <link rel="apple-touch-icon" href="/static/icons/icon_144x144.png" type="image/png">
+    <link rel="apple-touch-icon" href="/static/icons/icon_192x192.png" type="image/png">
+    <link rel="apple-touch-icon" href="/static/icons/icon_512x512.png" type="image/png">
+    <link rel="manifest" href="/manifest.json">
+    <script>
+
+        if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register("/sw.js").then(function(registration) {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            }, function(err) {
+            console.log('ServiceWorker registration failed: ', err);
+            });
+        });
+        }
+
+    </script>
+    <title>My trips. PhotoBook 1</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/" class="">Map 1</a></li>
+            <li><a href="/map2" class="">Map 2</a></li>
+            <li><a href="/book1" class="active">Book 1</a></li>
+            <li><a href="/book2" class="">Book 2</a></li>
+            <li><a href="/add" class="">Add</a></li>
+        </ul>
+    </nav>
+    <div class="map-container">
+        
+    <!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photobook by countries and cities</title>
+    <style>
+
+    /*
+    * Styles for the photobook page
+    */
+
+    /*
+    * The container for the whole book
+    */
+    .book-container {
+        all: unset; /* отменяет все стили родителя */
+        flex: initial;
+        display: initial;
+    }
+
+    /*
+    * Styles for the country blocks
+    */
+    .country {
+        margin-bottom: 2em;
+        position: relative; /* Позиционирование для стрелки */
+      }
+    .country-name {
+        background-color: #4CAF50;  /* Цвет фона */
+        color: white;               /* Цвет текста */
+        padding: 10px;              /* Отступы внутри элемента */
+        margin: 0;                  /* Убираем внешние отступы, если не нужно */
+      }
+
+    /*
+    * Styles for the city blocks
+    */
+    .city {
+        margin-left: 1em;
+        margin-bottom: 1em;
+      }
+
+    /*
+    * Styles for the city names
+    */
+    .city-name {
+        background-color: #3498db;  /* Цвет фона */
+        color: white;               /* Цвет текста */
+        padding: 10px;              /* Отступы внутри элемента */
+        margin: 2;                  /* Убираем внешние отступы, если не нужно */
+      }
+
+    /*
+    * Styles for the place names
+    */
+    .place-name {
+        margin-left: 2em;
+        font-weight: bold;
+        background-color: #f39c12;  /* Цвет фона */
+        color: white;               /* Цвет текста */
+        padding: 10px;              /* Отступы внутри элемента */
+        margin: 2;                  /* Убираем внешние отступы, если не нужно */
+
+      }
+
+    /*
+    * Styles for the images
+    */
+    .images {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin-left: 2em;
+        margin-top: 1em;
+    }
+    .images img {
+       height: 350px;        /* жёсткая высота */
+       display: block;
+       width: auto;
+       border: 2px solid #ccc;
+     }
+    /*
+    * Styles for the photo masonry
+    */
+    .photo-masonry {
+       column-count: 4;     /* кол-во колонок */
+       column-gap: 10px;    /* промежуток между колонками */
+     }
+
+    /*
+    * Styles for the images in the photo masonry
+    */
+    .photo-masonry img {
+       width: 100%;         /* важно: чтоб картинка была шириной всей «колонки» */
+       display: block; 
+       margin-bottom: 10px; /* отступ между изображениями по вертикали */
+       border: 1px solid #ccc; /* например, тонкая рамка */
+     }
+    /*
+    * Styles for the links
+    */
+    .country-links {
+        margin-bottom: 20px;
+    }
+    .country-links a {
+        margin-right: 15px;
+        text-decoration: none;
+        color: #3498db;
+    }
+    .country-links a:hover {
+        text-decoration: underline;
+    }
+    /*
+    * Styles for the links inside place.name
+    */
+    .place-name a {
+        text-decoration: none; /* Убираем подчеркивание для ссылок в place.name */
+        color: white;        /* Цвет ссылок */
+    }
+    .place-name a:hover {
+        text-decoration: underline; /* Подчеркивание при наведении на ссылку в place.name */
+    }
+    /*
+    * Styles for the back to top button
+    */
+    .back-to-top {
+        cursor: pointer;
+        font-size: 20px;
+        color: white; 
+        margin-left: 10px;
+    }
+    .back-to-top:hover {
+        text-decoration: underline;
+    }
+    /*
+    * Styles for the scroll to top icon
+    */
+    .scroll-to-top {
+        position: absolute;    /* Абсолютное позиционирование */
+        top: 50%;             /* Отступ сверху */
+        right: -30px;           /* Немного смещаем стрелку влево от блока */
+        cursor: pointer;
+        font-size: 20px;
+        color: white; 
+        transform: translateY(-50%); /* Центрируем по вертикали с учетом высоты стрелки */
+      }
+      .scroll-to-top:hover {
+        text-decoration: underline;
+      }
+      .close-button {
+              position: absolute;
+              top: 20px;
+              right: 20px;
+              background-color: transparent;
+              border: none;
+              color: black;
+              font-size: 24px;
+              cursor: pointer;
+          }
+    /* Media query for mobile devices */
+    @media (max-width: 800px) {
+        .images img {
+                max-height: 80vh;
+                max-width: 80vw;
+                width: auto;
+                height: auto;
+                margin: auto;
+            }
+    }
+    </style>
+</head>
+<body id="top">
+    <button class="close-button" onclick="window.close()">×</button>
+
+<div class="book-container">
+<h1>Travel Countries</h1>
+<div class="country-links">
+  
+      <a href="#Germany">Germany</a>
+  
+      <a href="#Czech Republic">Czech Republic</a>
+  
+      <a href="#Montenegro">Montenegro</a>
+  
+      <a href="#Poland">Poland</a>
+  
+      <a href="#Spain">Spain</a>
+  
+</div>
+    
+        <div class="country"  id="Germany">
+            <span class="scroll-to-top" onclick="window.scrollTo(0, 0);">↑</span>
+            <h2 class="country-name" onclick="window.scrollTo(0, 0);">Germany</h2>
+            
+            
+                <div class="city">
+                    <h3 class="city-name">Regensburg</h3>
+                    
+                    
+                        <div class="place">
+                            <div class="place-name">
+                                <a href="/gallery?images=/static/images/germany3.jpg,/static/images/germany4.jpg&title=Regensburg%202019" target="_blank">
+                                    Regensburg 2019
+                                </a>
+                            </div>
+
+                            
+                            <div class="images">
+                                
+                                    <img src="/static/images/germany3.jpg" alt="Photo Regensburg 2019" class="images">
+                                
+                                    <img src="/static/images/germany4.jpg" alt="Photo Regensburg 2019" class="images">
+                                
+                            </div>
+                        </div>
+                    
+                </div>
+            
+                <div class="city">
+                    <h3 class="city-name">Rotenburg</h3>
+                    
+                    
+                        <div class="place">
+                            <div class="place-name">
+                                <a href="/gallery?images=/static/images/rotenburg4.jpg&title=Rotenburg%202015" target="_blank">
+                                    Rotenburg 2015
+                                </a>
+                            </div>
+
+                            
+                            <div class="images">
+                                
+                                    <img src="/static/images/rotenburg4.jpg" alt="Photo Rotenburg 2015" class="images">
+                                
+                            </div>
+                        </div>
+                    
+                </div>
+            
+                <div class="city">
+                    <h3 class="city-name">Gannover</h3>
+                    
+                    
+                        <div class="place">
+                            <div class="place-name">
+                                <a href="/gallery?images=/static/images/gannover1-3.jpg,/static/images/gannover1-4.jpg&title=Gannover%202011" target="_blank">
+                                    Gannover 2011
+                                </a>
+                            </div>
+
+                            
+                            <div class="images">
+                                
+                                    <img src="/static/images/gannover1-3.jpg" alt="Photo Gannover 2011" class="images">
+                                
+                                    <img src="/static/images/gannover1-4.jpg" alt="Photo Gannover 2011" class="images">
+                                
+                            </div>
+                        </div>
+                    
+                </div>
+            
+        </div>
+
+   
+        <div class="country"  id="Czech Republic">
+            <span class="scroll-to-top" onclick="window.scrollTo(0, 0);">↑</span>
+            <h2 class="country-name" onclick="window.scrollTo(0, 0);">Czech Republic</h2>
+            
+            
+                <div class="city">
+                    <h3 class="city-name">Prague</h3>
+                    
+                    
+                        <div class="place">
+                            <div class="place-name">
+                                <a href="/gallery?images=/static/images/praha7.jpg,/static/images/praha10.jpg,/static/images/praha8.jpg,/static/images/praha9.jpg&title=Prague%202021" target="_blank">
+                                    Prague 2021
+                                </a>
+                            </div>
+
+                            
+                            <div class="images">
+                                
+                                    <img src="/static/images/praha7.jpg" alt="Photo Prague 2021" class="images">
+                                
+                                    <img src="/static/images/praha10.jpg" alt="Photo Prague 2021" class="images">
+                                
+                                    <img src="/static/images/praha8.jpg" alt="Photo Prague 2021" class="images">
+                                
+                                    <img src="/static/images/praha9.jpg" alt="Photo Prague 2021" class="images">
+                                
+                            </div>
+                        </div>
+                    
+                </div>
+            
+                <div class="city">
+                    <h3 class="city-name">Marianske Lazne</h3>
+                    
+                    
+                        <div class="place">
+                            <div class="place-name">
+                                <a href="/gallery?images=/static/images/ml12.jpg,/static/images/ml24.jpg,/static/images/ml102.jpg&title=Marianske%20Lazne%202024" target="_blank">
+                                    Marianske Lazne 2024
+                                </a>
+                            </div>
+
+                            
+                            <div class="images">
+                                
+                                    <img src="/static/images/ml12.jpg" alt="Photo Marianske Lazne 2024" class="images">
+                                
+                                    <img src="/static/images/ml24.jpg" alt="Photo Marianske Lazne 2024" class="images">
+                                
+                                    <img src="/static/images/ml102.jpg" alt="Photo Marianske Lazne 2024" class="images">
+                                
+                            </div>
+                        </div>
+                    
+                </div>
+            
+        </div>
+
+   
+        <div class="country"  id="Montenegro">
+            <span class="scroll-to-top" onclick="window.scrollTo(0, 0);">↑</span>
+            <h2 class="country-name" onclick="window.scrollTo(0, 0);">Montenegro</h2>
+            
+            
+                <div class="city">
+                    <h3 class="city-name">Podgorica</h3>
+                    
+                    
+                        <div class="place">
+                            <div class="place-name">
+                                <a href="/gallery?images=/static/images/ostrog3.jpg,/static/images/kotor1.jpg&title=Podgorica%202012" target="_blank">
+                                    Podgorica 2012
+                                </a>
+                            </div>
+
+                            
+                            <div class="images">
+                                
+                                    <img src="/static/images/ostrog3.jpg" alt="Photo Podgorica 2012" class="images">
+                                
+                                    <img src="/static/images/kotor1.jpg" alt="Photo Podgorica 2012" class="images">
+                                
+                            </div>
+                        </div>
+                    
+                </div>
+            
+        </div>
+
+   
+        <div class="country"  id="Poland">
+            <span class="scroll-to-top" onclick="window.scrollTo(0, 0);">↑</span>
+            <h2 class="country-name" onclick="window.scrollTo(0, 0);">Poland</h2>
+            
+            
+                <div class="city">
+                    <h3 class="city-name">Warsaw</h3>
+                    
+                    
+                        <div class="place">
+                            <div class="place-name">
+                                <a href="/gallery?images=/static/images/warsaw1.jpg,/static/images/warsaw11.jpg&title=Warsaw%202022" target="_blank">
+                                    Warsaw 2022
+                                </a>
+                            </div>
+
+                            
+                            <div class="images">
+                                
+                                    <img src="/static/images/warsaw1.jpg" alt="Photo Warsaw 2022" class="images">
+                                
+                                    <img src="/static/images/warsaw11.jpg" alt="Photo Warsaw 2022" class="images">
+                                
+                            </div>
+                        </div>
+                    
+                        <div class="place">
+                            <div class="place-name">
+                                <a href="/gallery?images=/static/images/warsaw-park-3.jpg,/static/images/warsaw-park-4.jpg,/static/images/warsaw-park-5.jpg,/static/images/warsaw-park-6.jpg&title=Warsaw%202023%20%28Royal%20Lazienki%20Park%29" target="_blank">
+                                    Warsaw 2023 (Royal Lazienki Park)
+                                </a>
+                            </div>
+
+                            
+                            <div class="images">
+                                
+                                    <img src="/static/images/warsaw-park-3.jpg" alt="Photo Warsaw 2023 (Royal Lazienki Park)" class="images">
+                                
+                                    <img src="/static/images/warsaw-park-4.jpg" alt="Photo Warsaw 2023 (Royal Lazienki Park)" class="images">
+                                
+                                    <img src="/static/images/warsaw-park-5.jpg" alt="Photo Warsaw 2023 (Royal Lazienki Park)" class="images">
+                                
+                                    <img src="/static/images/warsaw-park-6.jpg" alt="Photo Warsaw 2023 (Royal Lazienki Park)" class="images">
+                                
+                            </div>
+                        </div>
+                    
+                </div>
+            
+        </div>
+
+   
+        <div class="country"  id="Spain">
+            <span class="scroll-to-top" onclick="window.scrollTo(0, 0);">↑</span>
+            <h2 class="country-name" onclick="window.scrollTo(0, 0);">Spain</h2>
+            
+            
+                <div class="city">
+                    <h3 class="city-name">Barselona</h3>
+                    
+                    
+                        <div class="place">
+                            <div class="place-name">
+                                <a href="/gallery?images=/static/images/brsn2.jpg,/static/images/brsn1.jpg,/static/images/brsn3.jpg,/static/images/brsn4.jpg&title=Barselona%202023" target="_blank">
+                                    Barselona 2023
+                                </a>
+                            </div>
+
+                            
+                            <div class="images">
+                                
+                                    <img src="/static/images/brsn2.jpg" alt="Photo Barselona 2023" class="images">
+                                
+                                    <img src="/static/images/brsn1.jpg" alt="Photo Barselona 2023" class="images">
+                                
+                                    <img src="/static/images/brsn3.jpg" alt="Photo Barselona 2023" class="images">
+                                
+                                    <img src="/static/images/brsn4.jpg" alt="Photo Barselona 2023" class="images">
+                                
+                            </div>
+                        </div>
+                    
+                </div>
+            
+        </div>
+
+   
+   </div>
+</body>
+</html>
+
+    </div>
+    <footer>
+        <p>&copy; 2024, My Travel Map.</p>
+    </footer>
+    
+</body>
+</html>

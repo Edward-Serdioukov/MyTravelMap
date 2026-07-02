@@ -1,4 +1,4 @@
-<!-- templates/index.html -->
+<!-- templates/about.html -->
 <!-- templates/base.html -->
 <!DOCTYPE html>
 <html lang="en">
@@ -35,13 +35,13 @@
         }
 
     </script>
-    <title>My trips. Map 2</title>
+    <title></title>
 </head>
 <body>
     <nav>
         <ul>
             <li><a href="/" class="">Map 1</a></li>
-            <li><a href="/map2" class="active">Map 2</a></li>
+            <li><a href="/map2" class="">Map 2</a></li>
             <li><a href="/book1" class="">Book 1</a></li>
             <li><a href="/book2" class="">Book 2</a></li>
             <li><a href="/add" class="">Add</a></li>
@@ -49,7 +49,7 @@
     </nav>
     <div class="map-container">
         
-<iframe src="/static/map2.html" ></iframe>
+<h1>About Page</h1>
 
     </div>
     <footer>

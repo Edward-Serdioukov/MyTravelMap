@@ -360,7 +360,8 @@ def book_dates():
 
 @app.route('/gallery')
 def gallery():
-    images = request.args.get('images').split(',')
+    images_str = request.args.get('images', '')
+    images = images_str.split(',') if images_str else []
     title = request.args.get('title', 'Gallery')
     return render_template('gallery.html', images=images, title=title)
 
@@ -384,7 +385,7 @@ def create():
 def geocode():
     location_name = request.args.get('location_name', '')
     if not location_name:
-        return {"error": "Missing location name"}, 400
+        return {"error": "Missing location name"}, 200
     
     headers = {
         'User-Agent': 'MyTravelMapDemoApp/1.0'

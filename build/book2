@@ -1,0 +1,619 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3KG3SZL4EF"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-3KG3SZL4EF');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="/static/icons/icon_144x144.png" type="image/png">
+    <link rel="icon" href="/static/icons/icon_192x192.png" type="image/png">
+    <link rel="icon" href="/static/icons/icon_512x512.png" type="image/png">
+    <link rel="apple-touch-icon" href="/static/icons/icon_144x144.png" type="image/png">
+    <link rel="apple-touch-icon" href="/static/icons/icon_192x192.png" type="image/png">
+    <link rel="apple-touch-icon" href="/static/icons/icon_512x512.png" type="image/png">
+    <link rel="manifest" href="/manifest.json">
+    <script>
+
+        if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register("/sw.js").then(function(registration) {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            }, function(err) {
+            console.log('ServiceWorker registration failed: ', err);
+            });
+        });
+        }
+
+    </script>
+    <title>My trips. PhotoBook 2</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/" class="">Map 1</a></li>
+            <li><a href="/map2" class="">Map 2</a></li>
+            <li><a href="/book1" class="">Book 1</a></li>
+            <li><a href="/book2" class="active">Book 2</a></li>
+            <li><a href="/add" class="">Add</a></li>
+        </ul>
+    </nav>
+    <div class="map-container">
+        
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timeline</title>
+  <style>
+    /* Стили контейнера книги */
+    .book-container {
+      all: unset;
+      flex: initial;
+      display: initial;
+    }
+    /* Basic styling for the timeline */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      width: 100%; /* Заголовок на всю ширину */
+    }
+    .year {
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .year-title {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px;
+      margin: 0;
+      cursor: pointer;
+      width: 100%; /* Заголовок на всю ширину */
+      box-sizing: border-box; /* Включаем padding в ширину */
+    }
+    .place {
+      margin-bottom: 10px;
+    }
+    .place-title {
+      font-weight: bold;
+      margin-left: 2em;
+      background-color: #f39c12;
+      color: white;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      width: calc(100% - 2em); /* Заголовок на всю ширину, с учетом отступа слева */
+      box-sizing: border-box; /* Включаем padding в ширину */
+    }
+    .place-title a {
+      text-decoration: none;
+      color: white;
+    }
+    .place-title a:hover {
+      text-decoration: underline;
+    }
+    .entry {
+      margin-bottom: 5px;
+    }
+    .images {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-left: 2em;
+      margin-top: 1em;
+    }
+    .images img {
+      height: 350px;
+      display: block;
+      width: auto;
+      border: 2px solid #ccc;
+    }
+    /* Секции с фотографиями изначально показываются */
+    .photos-container {
+      /* display: none; */ /* Removed this line */
+    }
+    /* Стили для кнопок переключения внутри места */
+    .toggle-button {
+      cursor: pointer;
+      margin-left: 10px;
+      font-size: 16px;
+      user-select: none;
+    }
+    /* Кнопка "Открыть все/Закрыть все" */
+    .toggle-all-button {
+      margin-bottom: 20px;
+      padding: 10px 15px;
+      background-color: #f39c12;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    /* Прочие стили */
+    .country-links {
+      margin-bottom: 20px;
+      width: 100%; /* Заголовок на всю ширину */
+    }
+    .country-links a {
+      margin-right: 15px;
+      text-decoration: none;
+      color: #3498db;
+    }
+    .country-links a:hover {
+      text-decoration: underline;
+    }
+    /*
+    * Styles for the country blocks
+    */
+    .country {
+        margin-left: 1em;
+        margin-bottom: 1em;
+    }
+    .country-name {
+        background-color: #3498db;  /* Цвет фона */
+        color: white;               /* Цвет текста */
+        padding: 10px;              /* Отступы внутри элемента */
+        margin: 2;                  /* Убираем внешние отступы, если не нужно */
+        width: calc(100% - 1em); /* Заголовок на всю ширину, с учетом отступа слева */
+        box-sizing: border-box; /* Включаем padding в ширину */
+    }
+    .close-button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: transparent;
+      border: none;
+      color: black;
+      font-size: 24px;
+      cursor: pointer;
+    }
+    /* Media query for mobile devices */
+    @media (max-width: 800px) {
+    .images img {
+            max-height: 80vh;
+            max-width: 80vw;
+            width: auto;
+            height: auto;
+            margin: auto;
+        }
+    }
+  </style>
+</head>
+<body id="top">
+  <button class="close-button" onclick="window.close()">×</button>
+  <div class="book-container">
+    <h1>Travel Timeline</h1>
+    <!-- Кнопка для открытия/закрытия всех секций -->
+    <button id="toggle-all" class="toggle-all-button" onclick="toggleAllPhotos()">Hide all photos</button>
+    
+    <!-- Навигационное меню -->
+    <div class="country-links">
+      
+        <a href="#2011">2011</a>
+      
+        <a href="#2012">2012</a>
+      
+        <a href="#2015">2015</a>
+      
+        <a href="#2019">2019</a>
+      
+        <a href="#2021">2021</a>
+      
+        <a href="#2022">2022</a>
+      
+        <a href="#2023">2023</a>
+      
+        <a href="#2024">2024</a>
+      
+    </div>
+    <div class="timeline">
+      
+      <div class="year" id="2011">
+        <div class="year-title" onclick="window.scrollTo(0, 0);">2011</div>
+        
+        <div class="country">
+          <h3 class="country-name">Germany</h3>
+          
+          <div class="place">
+            <div class="place-title">
+              <a href="/gallery?images=/static/images/gannover1-3.jpg,/static/images/gannover1-4.jpg&title=Gannover" target="_blank">
+                Gannover
+              </a>
+              <!-- Кнопка для сворачивания/разворачивания фотографий -->
+              <span class="toggle-button" onclick="togglePhotos(this)">▼</span>
+            </div>
+            
+            <!-- Контейнер для фотографий, изначально показывается -->
+            <div class="photos-container">
+              
+              <div class="entry">
+                <!-- Координаты: [52.32595806606605, 9.804916448310456] -->
+                <div class="images">
+                  
+                  <img src="/static/images/gannover1-3.jpg" alt="Photo Gannover" class="images">
+                  
+                  <img src="/static/images/gannover1-4.jpg" alt="Photo Gannover" class="images">
+                  
+                </div>
+              </div>
+              
+            </div>
+            
+          </div>
+          
+        </div>
+        
+      </div>
+      
+      <div class="year" id="2012">
+        <div class="year-title" onclick="window.scrollTo(0, 0);">2012</div>
+        
+        <div class="country">
+          <h3 class="country-name">Montenegro</h3>
+          
+          <div class="place">
+            <div class="place-title">
+              <a href="/gallery?images=/static/images/ostrog3.jpg,/static/images/kotor1.jpg&title=Podgorica" target="_blank">
+                Podgorica
+              </a>
+              <!-- Кнопка для сворачивания/разворачивания фотографий -->
+              <span class="toggle-button" onclick="togglePhotos(this)">▼</span>
+            </div>
+            
+            <!-- Контейнер для фотографий, изначально показывается -->
+            <div class="photos-container">
+              
+              <div class="entry">
+                <!-- Координаты: [42.43121104463073, 19.26102575823919] -->
+                <div class="images">
+                  
+                  <img src="/static/images/ostrog3.jpg" alt="Photo Podgorica" class="images">
+                  
+                  <img src="/static/images/kotor1.jpg" alt="Photo Podgorica" class="images">
+                  
+                </div>
+              </div>
+              
+            </div>
+            
+          </div>
+          
+        </div>
+        
+      </div>
+      
+      <div class="year" id="2015">
+        <div class="year-title" onclick="window.scrollTo(0, 0);">2015</div>
+        
+        <div class="country">
+          <h3 class="country-name">Germany</h3>
+          
+          <div class="place">
+            <div class="place-title">
+              <a href="/gallery?images=/static/images/rotenburg4.jpg&title=Rotenburg" target="_blank">
+                Rotenburg
+              </a>
+              <!-- Кнопка для сворачивания/разворачивания фотографий -->
+              <span class="toggle-button" onclick="togglePhotos(this)">▼</span>
+            </div>
+            
+            <!-- Контейнер для фотографий, изначально показывается -->
+            <div class="photos-container">
+              
+              <div class="entry">
+                <!-- Координаты: [49.373776337808934, 10.195805076292428] -->
+                <div class="images">
+                  
+                  <img src="/static/images/rotenburg4.jpg" alt="Photo Rotenburg" class="images">
+                  
+                </div>
+              </div>
+              
+            </div>
+            
+          </div>
+          
+        </div>
+        
+      </div>
+      
+      <div class="year" id="2019">
+        <div class="year-title" onclick="window.scrollTo(0, 0);">2019</div>
+        
+        <div class="country">
+          <h3 class="country-name">Germany</h3>
+          
+          <div class="place">
+            <div class="place-title">
+              <a href="/gallery?images=/static/images/germany3.jpg,/static/images/germany4.jpg&title=Regensburg" target="_blank">
+                Regensburg
+              </a>
+              <!-- Кнопка для сворачивания/разворачивания фотографий -->
+              <span class="toggle-button" onclick="togglePhotos(this)">▼</span>
+            </div>
+            
+            <!-- Контейнер для фотографий, изначально показывается -->
+            <div class="photos-container">
+              
+              <div class="entry">
+                <!-- Координаты: [49.019874936422745, 12.093504368009864] -->
+                <div class="images">
+                  
+                  <img src="/static/images/germany3.jpg" alt="Photo Regensburg" class="images">
+                  
+                  <img src="/static/images/germany4.jpg" alt="Photo Regensburg" class="images">
+                  
+                </div>
+              </div>
+              
+            </div>
+            
+          </div>
+          
+        </div>
+        
+      </div>
+      
+      <div class="year" id="2021">
+        <div class="year-title" onclick="window.scrollTo(0, 0);">2021</div>
+        
+        <div class="country">
+          <h3 class="country-name">Czech Republic</h3>
+          
+          <div class="place">
+            <div class="place-title">
+              <a href="/gallery?images=/static/images/praha7.jpg,/static/images/praha10.jpg,/static/images/praha8.jpg,/static/images/praha9.jpg&title=Prague" target="_blank">
+                Prague
+              </a>
+              <!-- Кнопка для сворачивания/разворачивания фотографий -->
+              <span class="toggle-button" onclick="togglePhotos(this)">▼</span>
+            </div>
+            
+            <!-- Контейнер для фотографий, изначально показывается -->
+            <div class="photos-container">
+              
+              <div class="entry">
+                <!-- Координаты: [50.087077829240336, 14.420699661549783] -->
+                <div class="images">
+                  
+                  <img src="/static/images/praha7.jpg" alt="Photo Prague" class="images">
+                  
+                  <img src="/static/images/praha10.jpg" alt="Photo Prague" class="images">
+                  
+                  <img src="/static/images/praha8.jpg" alt="Photo Prague" class="images">
+                  
+                  <img src="/static/images/praha9.jpg" alt="Photo Prague" class="images">
+                  
+                </div>
+              </div>
+              
+            </div>
+            
+          </div>
+          
+        </div>
+        
+      </div>
+      
+      <div class="year" id="2022">
+        <div class="year-title" onclick="window.scrollTo(0, 0);">2022</div>
+        
+        <div class="country">
+          <h3 class="country-name">Poland</h3>
+          
+          <div class="place">
+            <div class="place-title">
+              <a href="/gallery?images=/static/images/warsaw1.jpg,/static/images/warsaw11.jpg&title=Warsaw" target="_blank">
+                Warsaw
+              </a>
+              <!-- Кнопка для сворачивания/разворачивания фотографий -->
+              <span class="toggle-button" onclick="togglePhotos(this)">▼</span>
+            </div>
+            
+            <!-- Контейнер для фотографий, изначально показывается -->
+            <div class="photos-container">
+              
+              <div class="entry">
+                <!-- Координаты: [52.229575635274635, 21.013038892885927] -->
+                <div class="images">
+                  
+                  <img src="/static/images/warsaw1.jpg" alt="Photo Warsaw" class="images">
+                  
+                  <img src="/static/images/warsaw11.jpg" alt="Photo Warsaw" class="images">
+                  
+                </div>
+              </div>
+              
+            </div>
+            
+          </div>
+          
+        </div>
+        
+      </div>
+      
+      <div class="year" id="2023">
+        <div class="year-title" onclick="window.scrollTo(0, 0);">2023</div>
+        
+        <div class="country">
+          <h3 class="country-name">Poland</h3>
+          
+          <div class="place">
+            <div class="place-title">
+              <a href="/gallery?images=/static/images/warsaw-park-3.jpg,/static/images/warsaw-park-4.jpg,/static/images/warsaw-park-5.jpg,/static/images/warsaw-park-6.jpg&title=Warsaw" target="_blank">
+                Warsaw
+              </a>
+              <!-- Кнопка для сворачивания/разворачивания фотографий -->
+              <span class="toggle-button" onclick="togglePhotos(this)">▼</span>
+            </div>
+            
+            <!-- Контейнер для фотографий, изначально показывается -->
+            <div class="photos-container">
+              
+              <div class="entry">
+                <!-- Координаты: [52.21460873842079, 21.03286039128743] -->
+                <div class="images">
+                  
+                  <img src="/static/images/warsaw-park-3.jpg" alt="Photo Warsaw" class="images">
+                  
+                  <img src="/static/images/warsaw-park-4.jpg" alt="Photo Warsaw" class="images">
+                  
+                  <img src="/static/images/warsaw-park-5.jpg" alt="Photo Warsaw" class="images">
+                  
+                  <img src="/static/images/warsaw-park-6.jpg" alt="Photo Warsaw" class="images">
+                  
+                </div>
+              </div>
+              
+            </div>
+            
+          </div>
+          
+        </div>
+        
+        <div class="country">
+          <h3 class="country-name">Spain</h3>
+          
+          <div class="place">
+            <div class="place-title">
+              <a href="/gallery?images=/static/images/brsn2.jpg,/static/images/brsn1.jpg,/static/images/brsn3.jpg,/static/images/brsn4.jpg&title=Barselona" target="_blank">
+                Barselona
+              </a>
+              <!-- Кнопка для сворачивания/разворачивания фотографий -->
+              <span class="toggle-button" onclick="togglePhotos(this)">▼</span>
+            </div>
+            
+            <!-- Контейнер для фотографий, изначально показывается -->
+            <div class="photos-container">
+              
+              <div class="entry">
+                <!-- Координаты: [41.3703, 2.1723] -->
+                <div class="images">
+                  
+                  <img src="/static/images/brsn2.jpg" alt="Photo Barselona" class="images">
+                  
+                  <img src="/static/images/brsn1.jpg" alt="Photo Barselona" class="images">
+                  
+                  <img src="/static/images/brsn3.jpg" alt="Photo Barselona" class="images">
+                  
+                  <img src="/static/images/brsn4.jpg" alt="Photo Barselona" class="images">
+                  
+                </div>
+              </div>
+              
+            </div>
+            
+          </div>
+          
+        </div>
+        
+      </div>
+      
+      <div class="year" id="2024">
+        <div class="year-title" onclick="window.scrollTo(0, 0);">2024</div>
+        
+        <div class="country">
+          <h3 class="country-name">Czech Republic</h3>
+          
+          <div class="place">
+            <div class="place-title">
+              <a href="/gallery?images=/static/images/ml12.jpg,/static/images/ml24.jpg,/static/images/ml102.jpg&title=Marianske%20Lazne" target="_blank">
+                Marianske Lazne
+              </a>
+              <!-- Кнопка для сворачивания/разворачивания фотографий -->
+              <span class="toggle-button" onclick="togglePhotos(this)">▼</span>
+            </div>
+            
+            <!-- Контейнер для фотографий, изначально показывается -->
+            <div class="photos-container">
+              
+              <div class="entry">
+                <!-- Координаты: [49.9773, 12.7065] -->
+                <div class="images">
+                  
+                  <img src="/static/images/ml12.jpg" alt="Photo Marianske Lazne" class="images">
+                  
+                  <img src="/static/images/ml24.jpg" alt="Photo Marianske Lazne" class="images">
+                  
+                  <img src="/static/images/ml102.jpg" alt="Photo Marianske Lazne" class="images">
+                  
+                </div>
+              </div>
+              
+            </div>
+            
+          </div>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+  </div>
+
+  <script>
+    // Функция для переключения видимости одной секции с фотографиями
+    function togglePhotos(button) {
+      const placeDiv = button.closest('.place');
+      const photosContainer = placeDiv.querySelector('.photos-container');
+      if (photosContainer) {
+        const currentDisplay = window.getComputedStyle(photosContainer).display;
+        if (currentDisplay !== 'none') {
+          photosContainer.style.display = 'none';
+          button.textContent = '▲';
+        } else {
+          photosContainer.style.display = 'block';
+          button.textContent = '▼';
+        }
+      }
+      event.stopPropagation();
+    }
+
+    // Функция для открытия/закрытия всех секций
+    function toggleAllPhotos() {
+      const toggleAllBtn = document.getElementById('toggle-all');
+      const containers = document.querySelectorAll('.photos-container');
+      const toggleButtons = document.querySelectorAll('.toggle-button');
+
+      if (toggleAllBtn.innerText.trim() === "Show all photos") {
+        // Открываем все секции
+        containers.forEach(function(container) {
+          container.style.display = 'block';
+        });
+        toggleButtons.forEach(function(button) {
+          button.textContent = '▼';
+        });
+        toggleAllBtn.textContent = "Hide all photos";
+      } else {
+        // Закрываем все секции
+        containers.forEach(function(container) {
+          container.style.display = 'none';
+        });
+        toggleButtons.forEach(function(button) {
+          button.textContent = '▲';
+        });
+        toggleAllBtn.textContent = "Show all photos";
+      }
+    }
+  </script>
+</body>
+</html>
+
+    </div>
+    <footer>
+        <p>&copy; 2024, My Travel Map.</p>
+    </footer>
+    
+</body>
+</html>
