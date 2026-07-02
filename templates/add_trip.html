@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="form-wrapper">
+    <div class="form-card">
+        <div class="form-header">
+            <h2>Add New Trip</h2>
+            <p class="form-subtitle">Fill in the trip details (Demo Mode)</p>
+        </div>
+        
+        <form id="tripForm" class="trip-form">
+            <div class="form-group">
+                <label for="name">Trip Name <span class="required">*</span></label>
+                <input type="text" id="name" name="name" placeholder="e.g., Summer vacation in Rome" class="form-control">
+                <span id="name-error" class="error-text"></span>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group col-6">
+                    <label for="city">City <span class="required">*</span></label>
+                    <input type="text" id="city" name="city" placeholder="e.g., Rome" class="form-control">
+                    <span id="city-error" class="error-text"></span>
+                </div>
+                
+                <div class="form-group col-6">
+                    <label for="country">Country <span class="required">*</span></label>
+                    <input type="text" id="country" name="country" placeholder="e.g., Italy" class="form-control">
+                    <span id="country-error" class="error-text"></span>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group col-6">
+                    <label for="start_date">Start Date</label>
+                    <input type="date" id="start_date" name="start_date" class="form-control">
+                </div>
+                
+                <div class="form-group col-6">
+                    <label for="end_date">End Date</label>
+                    <input type="date" id="end_date" name="end_date" class="form-control">
+                </div>
+            </div>
+            <div id="date-error" class="error-text full-width"></div>
+            
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" placeholder="Describe your plans, hotels, or interesting places..." rows="4" class="form-control"></textarea>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group col-6">
+                    <label for="url1">Useful Link 1</label>
+                    <input type="url" id="url1" name="url1" placeholder="https://example.com" class="form-control">
+                </div>
+                
+                <div class="form-group col-6">
+                    <label for="url2">Useful Link 2</label>
+                    <input type="url" id="url2" name="url2" placeholder="https://example.com" class="form-control">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="google_photos_url">Google Photos URL</label>
+                <input type="url" id="google_photos_url" name="google_photos_url" placeholder="https://photos.app.goo.gl/..." class="form-control">
+            </div>
+            
+            <div class="form-group">
+                <label for="image_paths">Image Paths (comma-separated or URLs)</label>
+                <textarea id="image_paths" name="image_paths" placeholder="static/images/rome1.jpg, static/images/rome2.jpg" rows="2" class="form-control"></textarea>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">Save Trip</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Custom Sleek Demo Modal -->
+<div id="demoModal" class="demo-modal" style="display: none;">
+    <div class="demo-modal-content">
+        <span class="close-modal">&times;</span>
+        <div class="demo-modal-icon">✨</div>
+        <h3>Demo Mode</h3>
+        <p>You are trying to save the trip: <strong id="modalTripName"></strong></p>
+        <p class="demo-modal-desc">This is a demo version of the MyTravelMap application. Server-side writes are disabled. The trip was not saved.</p>
+        <button id="closeModalBtn" class="modal-ok-btn">Got it</button>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Set default dates to today
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('start_date').value = today;
+    document.getElementById('end_date').value = today;
+
+    // Handle Form Submit
+    document.getElementById('tripForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        // Reset previous errors
+        document.querySelectorAll('.error-text').forEach(function(el) {
+            el.textContent = '';
+            el.style.display = 'none';
+        });
+        document.querySelectorAll('.form-control').forEach(function(el) {
+            el.classList.remove('input-error');
+        });
+        
+        let isValid = true;
+        
+        // Name validation
+        const nameInput = document.getElementById('name');
+        if (!nameInput.value.trim()) {
+            const err = document.getElementById('name-error');
+            err.textContent = 'Please enter a trip name.';
+            err.style.display = 'block';
+            nameInput.classList.add('input-error');
+            isValid = false;
+        }
+        
+        // City validation
+        const cityInput = document.getElementById('city');
+        if (!cityInput.value.trim()) {
+            const err = document.getElementById('city-error');
+            err.textContent = 'Please specify the city.';
+            err.style.display = 'block';
+            cityInput.classList.add('input-error');
+            isValid = false;
+        }
+        
+        // Country validation
+        const countryInput = document.getElementById('country');
+        if (!countryInput.value.trim()) {
+            const err = document.getElementById('country-error');
+            err.textContent = 'Please specify the country.';
+            err.style.display = 'block';
+            countryInput.classList.add('input-error');
+            isValid = false;
+        }
+        
+        // Dates validation
+        const startDateVal = document.getElementById('start_date').value;
+        const endDateVal = document.getElementById('end_date').value;
+        if (startDateVal && endDateVal) {
+            const startDate = new Date(startDateVal);
+            const endDate = new Date(endDateVal);
+            if (startDate > endDate) {
+                const err = document.getElementById('date-error');
+                err.textContent = 'Start date cannot be after end date.';
+                err.style.display = 'block';
+                document.getElementById('start_date').classList.add('input-error');
+                document.getElementById('end_date').classList.add('input-error');
+                isValid = false;
+            }
+        }
+        
+        if (isValid) {
+            // Populate and trigger modal
+            document.getElementById('modalTripName').textContent = nameInput.value.trim();
+            const modal = document.getElementById('demoModal');
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.classList.add('show');
+            }, 10);
+        }
+    });
+
+    // Close Modal Functions
+    const modal = document.getElementById('demoModal');
+    const closeBtn = document.querySelector('.close-modal');
+    const okBtn = document.getElementById('closeModalBtn');
+    
+    function closeModal() {
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 300);
+    }
+    
+    closeBtn.addEventListener('click', closeModal);
+    okBtn.addEventListener('click', closeModal);
+    window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
+});
+</script>
+{% endblock %}

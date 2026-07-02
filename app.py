@@ -5,6 +5,7 @@ from folium.plugins import Fullscreen
 import urllib.parse
 from collections import defaultdict
 import re
+import requests
 
 app = Flask(__name__) 
 
@@ -189,8 +190,8 @@ def index():
 
    
     # Save the map to an HTML file
-    folium_map.save('static/map.html')
-    replace_html('static/map.html')
+    ###folium_map.save('static/map.html')
+    ###replace_html('static/map.html')
     
     # Render the HTML page with the map
     return render_template('index.html', title="My Travel Map", map_url='map.html')
@@ -298,6 +299,27 @@ def get_timeline():
             sorted_timeline[year][place] = timeline_data[year][place]
     return sorted_timeline
 
+@app.route('/book1')
+def book1():
+
+    countries = defaultdict(lambda: defaultdict(list))
+
+    for place in places_visited:
+
+        city_candidate = extract_place(place["name"]) 
+
+        country = COUNTRY_MAP.get(city_candidate, "Unknown")
+
+        countries[country][city_candidate].append(place)
+    return render_template('book1.html', title="My trips. PhotoBook 1", countries=countries)
+
+
+@app.route('/book2')
+def book2():
+    timeline_data = get_timeline()
+    return render_template('book2.html', title="My trips. PhotoBook 2", timeline_data=timeline_data, is_img='true')
+
+
 @app.route('/book')
 def book():
 
@@ -346,6 +368,46 @@ def gallery():
 @app.route('/about')
 def about():
     return render_template('about.html')
+
+
+@app.route('/add')
+def add():
+    return render_template('add_location.html', title="Add New Location")
+
+
+@app.route('/create', methods=['POST'])
+def create():
+    return "Demo Mode: Saving is disabled."
+
+
+@app.route('/geocode')
+def geocode():
+    location_name = request.args.get('location_name', '')
+    if not location_name:
+        return {"error": "Missing location name"}, 400
+    
+    headers = {
+        'User-Agent': 'MyTravelMapDemoApp/1.0'
+    }
+    url = f"https://nominatim.openstreetmap.org/search?q={urllib.parse.quote(location_name)}&format=json&limit=1"
+    try:
+        r = requests.get(url, headers=headers, timeout=5)
+        if r.status_code == 200:
+            data = r.json()
+            if data:
+                lat = float(data[0]['lat'])
+                lon = float(data[0]['lon'])
+                display_name = data[0].get('display_name', '')
+                country = ''
+                if display_name:
+                    parts = [p.strip() for p in display_name.split(',')]
+                    if parts:
+                        country = parts[-1]
+                return {"latitude": lat, "longitude": lon, "country": country}
+    except Exception as e:
+        print("Geocoding error:", e)
+    
+    return {"error": "Location not found"}, 404
 
 
 if __name__ == '__main__':

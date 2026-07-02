@@ -15,6 +15,7 @@
     .timeline {
       display: flex;
       flex-direction: column;
+      width: 100%; /* Заголовок на всю ширину */
     }
     .year {
       margin-bottom: 20px;
@@ -26,6 +27,8 @@
       padding: 10px;
       margin: 0;
       cursor: pointer;
+      width: 100%; /* Заголовок на всю ширину */
+      box-sizing: border-box; /* Включаем padding в ширину */
     }
     .place {
       margin-bottom: 10px;
@@ -40,6 +43,8 @@
       align-items: center;
       justify-content: space-between;
       cursor: pointer;
+      width: calc(100% - 2em); /* Заголовок на всю ширину, с учетом отступа слева */
+      box-sizing: border-box; /* Включаем padding в ширину */
     }
     .place-title a {
       text-decoration: none;
@@ -64,9 +69,9 @@
       width: auto;
       border: 2px solid #ccc;
     }
-    /* Секции с фотографиями изначально скрыты */
+    /* Секции с фотографиями изначально показываются */
     .photos-container {
-      display: none;
+      /* display: none; */ /* Removed this line */
     }
     /* Стили для кнопок переключения внутри места */
     .toggle-button {
@@ -88,6 +93,7 @@
     /* Прочие стили */
     .country-links {
       margin-bottom: 20px;
+      width: 100%; /* Заголовок на всю ширину */
     }
     .country-links a {
       margin-right: 15px;
@@ -109,6 +115,8 @@
         color: white;               /* Цвет текста */
         padding: 10px;              /* Отступы внутри элемента */
         margin: 2;                  /* Убираем внешние отступы, если не нужно */
+        width: calc(100% - 1em); /* Заголовок на всю ширину, с учетом отступа слева */
+        box-sizing: border-box; /* Включаем padding в ширину */
     }
     .close-button {
       position: absolute;
@@ -137,7 +145,7 @@
   <div class="book-container">
     <h1>Travel Timeline</h1>
     <!-- Кнопка для открытия/закрытия всех секций -->
-    <button id="toggle-all" class="toggle-all-button" onclick="toggleAllPhotos()">Show all photos</button>
+    <button id="toggle-all" class="toggle-all-button" onclick="toggleAllPhotos()">Hide all photos</button>
     
     <!-- Навигационное меню -->
     <div class="country-links">
@@ -159,10 +167,10 @@
                 {{ place }}
               </a>
               <!-- Кнопка для сворачивания/разворачивания фотографий -->
-              <span class="toggle-button" onclick="togglePhotos(this)">▲</span>
+              <span class="toggle-button" onclick="togglePhotos(this)">▼</span>
             </div>
             {% if is_img == 'true' %}
-            <!-- Контейнер для фотографий, изначально скрытый -->
+            <!-- Контейнер для фотографий, изначально показывается -->
             <div class="photos-container">
               {% for entry in entries %}
               <div class="entry">
