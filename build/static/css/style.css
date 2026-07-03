@@ -394,3 +394,80 @@ textarea.form-control {
         padding: 20px;
     }
 }
+
+/* Footer & Promo Badges Styling */
+footer {
+    background-color: #1a1a1a;
+    color: #999;
+    padding: 20px 0;
+    font-size: 13px;
+    border-top: 1px solid #2a2a2a;
+    width: 100%;
+}
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+@media (min-width: 768px) {
+    .footer-content {
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 0;
+        align-items: center;
+    }
+}
+.footer-content p {
+    margin: 0;
+}
+.promo-badges {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.badge-button {
+    display: inline-flex;
+    align-items: center;
+    background-color: #000000;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    border: 1px solid #333333;
+    border-radius: 6px;
+    padding: 6px 14px;
+    min-width: 135px;
+    text-align: left;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+.badge-button:hover {
+    background-color: #111111;
+    border-color: #4CAF50;
+    transform: translateY(-1px);
+}
+.badge-icon {
+    font-size: 20px;
+    margin-right: 8px;
+    color: #ffffff;
+}
+.badge-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+.badge-sub {
+    font-size: 8px;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: #cccccc;
+    letter-spacing: 0.2px;
+}
+.badge-main {
+    font-size: 13px;
+    font-weight: 700;
+}

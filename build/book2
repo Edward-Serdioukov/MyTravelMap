@@ -21,6 +21,7 @@
     <link rel="apple-touch-icon" href="/static/icons/icon_192x192.png" type="image/png">
     <link rel="apple-touch-icon" href="/static/icons/icon_512x512.png" type="image/png">
     <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
 
         if ('serviceWorker' in navigator) {
@@ -612,8 +613,25 @@
 
     </div>
     <footer>
-        <p>&copy; 2024, My Travel Map.</p>
+        <div class="footer-content">
+            <p>&copy; 2024, My Travel Map.</p>
+            <div class="promo-badges">
+                <a href="https://apps.apple.com/us/app/my-player-compare-basketball/id6767770190" target="_blank" class="badge-button">
+                    <i class="fab fa-apple badge-icon"></i>
+                    <div class="badge-text">
+                        <span class="badge-sub">Download on the</span>
+                        <span class="badge-main">App Store</span>
+                    </div>
+                </a>
+                <a href="https://play.google.com/store/search?q=my%20players%20compare&c=apps" target="_blank" class="badge-button">
+                    <i class="fab fa-google-play badge-icon"></i>
+                    <div class="badge-text">
+                        <span class="badge-sub">GET IT ON</span>
+                        <span class="badge-main">Google Play</span>
+                    </div>
+                </a>
+            </div>
+        </div>
     </footer>
-    
 </body>
 </html>
