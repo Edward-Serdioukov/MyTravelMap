@@ -44,6 +44,28 @@
 </head>
 <body>
     
+    <div class="map-help-container">
+        <button class="help-toggle-btn" onclick="toggleHelp()"><i class="fa fa-question"></i></button>
+        <div id="info" class="help-box-content">
+            <div class="help-header">
+                <h4><i class="fa fa-info-circle"></i> How to use</h4>
+                <button class="help-close-btn" onclick="toggleHelp()">&times;</button>
+            </div>
+            <p>To see photos, click on any marker on the map. A popup window with photo previews will open.</p>
+            <p>Click on any photo in the popup to view the full screen gallery.</p>
+            <div class="help-links">
+                <a href="/book1" target="_parent" class="help-link-btn"><i class="fa fa-globe"></i> Book 1</a>
+                <a href="/book2" target="_parent" class="help-link-btn"><i class="fa fa-calendar"></i> Book 2</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function toggleHelp() {
+        const info = document.getElementById('info');
+        info.classList.toggle('show');
+    }
+    </script>
     
             <div class="folium-map" id="map_be4f6aa33a5d5a356dcc1d99ed55fdbe" ></div>
         

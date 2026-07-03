@@ -1,447 +1,526 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photobook by countries and cities</title>
+    <title>Photobook - Countries & Cities</title>
+    <!-- Load Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
+        /* Base Styles & Typography */
+        .map-container {
+            display: block !important;
+            overflow-y: auto;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FAF9F6; /* Soft premium cream/paper color */
+            color: #2C3E50;
+            margin: 0;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
 
-    /*
-    * Styles for the photobook page
-    */
+        .book-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
 
-    /*
-    * The container for the whole book
-    */
-    .book-container {
-        all: unset; /* отменяет все стили родителя */
-        flex: initial;
-        display: initial;
-    }
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            font-weight: 700;
+            text-align: center;
+            color: #1A252F;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
 
-    /*
-    * Styles for the country blocks
-    */
-    .country {
-        margin-bottom: 2em;
-        position: relative; /* Позиционирование для стрелки */
-      }
-    .country-name {
-        background-color: #4CAF50;  /* Цвет фона */
-        color: white;               /* Цвет текста */
-        padding: 10px;              /* Отступы внутри элемента */
-        margin: 0;                  /* Убираем внешние отступы, если не нужно */
-      }
+        .subtitle {
+            text-align: center;
+            color: #7F8C8D;
+            font-size: 16px;
+            margin-bottom: 40px;
+            font-style: italic;
+            font-family: 'Playfair Display', serif;
+        }
 
-    /*
-    * Styles for the city blocks
-    */
-    .city {
-        margin-left: 1em;
-        margin-bottom: 1em;
-      }
+        /* Floating Controls */
+        .close-button {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            font-size: 20px;
+            cursor: pointer;
+            color: #2C3E50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: all 0.2s ease;
+            z-index: 1000;
+        }
+        .close-button:hover {
+            background-color: #E74C3C;
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(231, 76, 60, 0.3);
+        }
 
-    /*
-    * Styles for the city names
-    */
-    .city-name {
-        background-color: #3498db;  /* Цвет фона */
-        color: white;               /* Цвет текста */
-        padding: 10px;              /* Отступы внутри элемента */
-        margin: 2;                  /* Убираем внешние отступы, если не нужно */
-      }
+        /* Navigation Menu */
+        .country-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 50px;
+            padding: 10px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .country-links a {
+            text-decoration: none;
+            color: #34495E;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 8px 16px;
+            background-color: rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.02);
+            border-radius: 20px;
+            transition: all 0.2s ease;
+        }
+        .country-links a:hover {
+            background-color: #4CAF50;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.25);
+        }
 
-    /*
-    * Styles for the place names
-    */
-    .place-name {
-        margin-left: 2em;
-        font-weight: bold;
-        background-color: #f39c12;  /* Цвет фона */
-        color: white;               /* Цвет текста */
-        padding: 10px;              /* Отступы внутри элемента */
-        margin: 2;                  /* Убираем внешние отступы, если не нужно */
+        /* Country Sections */
+        .country {
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.02);
+            padding: 30px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        .country-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 12px;
+            margin-bottom: 25px;
+        }
+        .country-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #2C3E50;
+            margin: 0;
+        }
+        .scroll-to-top {
+            background-color: rgba(0,0,0,0.03);
+            color: #7F8C8D;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            font-size: 14px;
+        }
+        .scroll-to-top:hover {
+            background-color: #4CAF50;
+            color: white;
+            transform: translateY(-2px);
+        }
 
-      }
+        /* City Sections */
+        .city {
+            margin-left: 0;
+            margin-bottom: 35px;
+            padding-left: 15px;
+            border-left: 3px solid rgba(52, 152, 219, 0.3);
+        }
+        .city-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2980B9;
+            margin: 0 0 20px 0;
+            letter-spacing: -0.3px;
+        }
 
-    /*
-    * Styles for the images
-    */
-    .images {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 5px;
-        margin-left: 2em;
-        margin-top: 1em;
-    }
-    .images img {
-       height: 350px;        /* жёсткая высота */
-       display: block;
-       width: auto;
-       border: 2px solid #ccc;
-     }
-    /*
-    * Styles for the photo masonry
-    */
-    .photo-masonry {
-       column-count: 4;     /* кол-во колонок */
-       column-gap: 10px;    /* промежуток между колонками */
-     }
+        /* Places & Images Grid */
+        .place {
+            margin-bottom: 25px;
+        }
+        .place-name {
+            display: inline-block;
+            font-size: 15px;
+            font-weight: 600;
+            background-color: #F39C12;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            box-shadow: 0 3px 6px rgba(243, 156, 18, 0.15);
+        }
+        .place-name a {
+            text-decoration: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .place-name a:hover {
+            text-decoration: underline;
+        }
 
-    /*
-    * Styles for the images in the photo masonry
-    */
-    .photo-masonry img {
-       width: 100%;         /* важно: чтоб картинка была шириной всей «колонки» */
-       display: block; 
-       margin-bottom: 10px; /* отступ между изображениями по вертикали */
-       border: 1px solid #ccc; /* например, тонкая рамка */
-     }
-    /*
-    * Styles for the links
-    */
-    .country-links {
-        margin-bottom: 20px;
-    }
-    .country-links a {
-        margin-right: 15px;
-        text-decoration: none;
-        color: #3498db;
-    }
-    .country-links a:hover {
-        text-decoration: underline;
-    }
-    /*
-    * Styles for the links inside place.name
-    */
-    .place-name a {
-        text-decoration: none; /* Убираем подчеркивание для ссылок в place.name */
-        color: white;        /* Цвет ссылок */
-    }
-    .place-name a:hover {
-        text-decoration: underline; /* Подчеркивание при наведении на ссылку в place.name */
-    }
-    /*
-    * Styles for the back to top button
-    */
-    .back-to-top {
-        cursor: pointer;
-        font-size: 20px;
-        color: white; 
-        margin-left: 10px;
-    }
-    .back-to-top:hover {
-        text-decoration: underline;
-    }
-    /*
-    * Styles for the scroll to top icon
-    */
-    .scroll-to-top {
-        position: absolute;    /* Абсолютное позиционирование */
-        top: 50%;             /* Отступ сверху */
-        right: -30px;           /* Немного смещаем стрелку влево от блока */
-        cursor: pointer;
-        font-size: 20px;
-        color: white; 
-        transform: translateY(-50%); /* Центрируем по вертикали с учетом высоты стрелки */
-      }
-      .scroll-to-top:hover {
-        text-decoration: underline;
-      }
-      .close-button {
-              position: absolute;
-              top: 20px;
-              right: 20px;
-              background-color: transparent;
-              border: none;
-              color: black;
-              font-size: 24px;
-              cursor: pointer;
-          }
-    /* Media query for mobile devices */
-    @media (max-width: 800px) {
+        .images {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 10px;
+        }
         .images img {
-                max-height: 80vh;
-                max-width: 80vw;
-                width: auto;
-                height: auto;
-                margin: auto;
+            height: 250px;
+            width: auto;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .images img:hover {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            border-color: rgba(0,0,0,0.15);
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 10px;
             }
-    }
+            .close-button {
+                top: 15px;
+                right: 15px;
+                width: 38px;
+                height: 38px;
+                font-size: 16px;
+            }
+            h1 {
+                font-size: 30px;
+            }
+            .country {
+                padding: 15px;
+            }
+            .images img {
+                height: 180px;
+                max-width: 100%;
+                width: auto;
+            }
+        }
     </style>
 </head>
 <body id="top">
-    <button class="close-button" onclick="window.close()">×</button>
+    <!-- Floating Close Button -->
+    <button class="close-button" onclick="window.close()" title="Close Book"><i class="fa fa-times"></i></button>
 
-<div class="book-container">
-<h1>Travel Countries</h1>
-<div class="country-links">
-  
-      <a href="#Germany">Germany</a>
-  
-      <a href="#Czech Republic">Czech Republic</a>
-  
-      <a href="#Montenegro">Montenegro</a>
-  
-      <a href="#Poland">Poland</a>
-  
-      <a href="#Spain">Spain</a>
-  
-</div>
-    
-        <div class="country"  id="Germany">
-            <span class="scroll-to-top" onclick="window.scrollTo(0, 0);">↑</span>
-            <h2 class="country-name" onclick="window.scrollTo(0, 0);">Germany</h2>
-            
-            
-                <div class="city">
-                    <h3 class="city-name">Regensburg</h3>
-                    
-                    
-                        <div class="place">
-                            <div class="place-name">
-                                <a href="/gallery?images=/static/images/germany3.jpg,/static/images/germany4.jpg&title=Regensburg%202019" target="_blank">
-                                    Regensburg 2019
-                                </a>
-                            </div>
+    <div class="book-container">
+        <h1>Travel Countries</h1>
+        <div class="subtitle">A visual journal of visited places, organized by countries & cities</div>
 
-                            
-                            <div class="images">
-                                
-                                    <img src="/static/images/germany3.jpg" alt="Photo Regensburg 2019" class="images">
-                                
-                                    <img src="/static/images/germany4.jpg" alt="Photo Regensburg 2019" class="images">
-                                
-                            </div>
-                        </div>
-                    
-                </div>
+        <!-- Quick Jump Navigation -->
+        <div class="country-links">
             
-                <div class="city">
-                    <h3 class="city-name">Rotenburg</h3>
-                    
-                    
-                        <div class="place">
-                            <div class="place-name">
-                                <a href="/gallery?images=/static/images/rotenburg4.jpg&title=Rotenburg%202015" target="_blank">
-                                    Rotenburg 2015
-                                </a>
-                            </div>
-
-                            
-                            <div class="images">
-                                
-                                    <img src="/static/images/rotenburg4.jpg" alt="Photo Rotenburg 2015" class="images">
-                                
-                            </div>
-                        </div>
-                    
-                </div>
+                <a href="#Germany"><i class="fa fa-map-marker-alt me-1" style="font-size: 11px;"></i> Germany</a>
             
-                <div class="city">
-                    <h3 class="city-name">Gannover</h3>
-                    
-                    
-                        <div class="place">
-                            <div class="place-name">
-                                <a href="/gallery?images=/static/images/gannover1-3.jpg,/static/images/gannover1-4.jpg&title=Gannover%202011" target="_blank">
-                                    Gannover 2011
-                                </a>
-                            </div>
-
-                            
-                            <div class="images">
-                                
-                                    <img src="/static/images/gannover1-3.jpg" alt="Photo Gannover 2011" class="images">
-                                
-                                    <img src="/static/images/gannover1-4.jpg" alt="Photo Gannover 2011" class="images">
-                                
-                            </div>
-                        </div>
-                    
-                </div>
+                <a href="#Czech Republic"><i class="fa fa-map-marker-alt me-1" style="font-size: 11px;"></i> Czech Republic</a>
+            
+                <a href="#Montenegro"><i class="fa fa-map-marker-alt me-1" style="font-size: 11px;"></i> Montenegro</a>
+            
+                <a href="#Poland"><i class="fa fa-map-marker-alt me-1" style="font-size: 11px;"></i> Poland</a>
+            
+                <a href="#Spain"><i class="fa fa-map-marker-alt me-1" style="font-size: 11px;"></i> Spain</a>
             
         </div>
 
-   
-        <div class="country"  id="Czech Republic">
-            <span class="scroll-to-top" onclick="window.scrollTo(0, 0);">↑</span>
-            <h2 class="country-name" onclick="window.scrollTo(0, 0);">Czech Republic</h2>
-            
-            
-                <div class="city">
-                    <h3 class="city-name">Prague</h3>
-                    
-                    
-                        <div class="place">
-                            <div class="place-name">
-                                <a href="/gallery?images=/static/images/praha7.jpg,/static/images/praha10.jpg,/static/images/praha8.jpg,/static/images/praha9.jpg&title=Prague%202021" target="_blank">
-                                    Prague 2021
-                                </a>
-                            </div>
-
-                            
-                            <div class="images">
-                                
-                                    <img src="/static/images/praha7.jpg" alt="Photo Prague 2021" class="images">
-                                
-                                    <img src="/static/images/praha10.jpg" alt="Photo Prague 2021" class="images">
-                                
-                                    <img src="/static/images/praha8.jpg" alt="Photo Prague 2021" class="images">
-                                
-                                    <img src="/static/images/praha9.jpg" alt="Photo Prague 2021" class="images">
-                                
-                            </div>
-                        </div>
-                    
+        <!-- Countries & Cities List -->
+        
+            <div class="country" id="Germany">
+                <div class="country-header">
+                    <h2 class="country-name">Germany</h2>
+                    <button class="scroll-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" title="Back to top">
+                        <i class="fa fa-arrow-up"></i>
+                    </button>
                 </div>
-            
-                <div class="city">
-                    <h3 class="city-name">Marianske Lazne</h3>
-                    
-                    
-                        <div class="place">
-                            <div class="place-name">
-                                <a href="/gallery?images=/static/images/ml12.jpg,/static/images/ml24.jpg,/static/images/ml102.jpg&title=Marianske%20Lazne%202024" target="_blank">
-                                    Marianske Lazne 2024
-                                </a>
+                
+                
+                    <div class="city">
+                        <h3 class="city-name"><i class="fa fa-city me-2" style="font-size: 14px; opacity: 0.8;"></i> Regensburg</h3>
+                        
+                        
+                            <div class="place">
+                                <div class="place-name">
+                                    <a href="/gallery?images=/static/images/germany3.jpg,/static/images/germany4.jpg&title=Regensburg%202019" target="_blank">
+                                        <i class="fa fa-images"></i> Regensburg 2019
+                                    </a>
+                                </div>
+                                
+                                <div class="images">
+                                    
+                                        <img src="/static/images/germany3.jpg" alt="Photo of Regensburg 2019" loading="lazy" onclick="window.open('/gallery?images=/static/images/germany3.jpg,/static/images/germany4.jpg&title=Regensburg%202019', '_blank')">
+                                    
+                                        <img src="/static/images/germany4.jpg" alt="Photo of Regensburg 2019" loading="lazy" onclick="window.open('/gallery?images=/static/images/germany3.jpg,/static/images/germany4.jpg&title=Regensburg%202019', '_blank')">
+                                    
+                                </div>
                             </div>
-
-                            
-                            <div class="images">
+                        
+                    </div>
+                
+                    <div class="city">
+                        <h3 class="city-name"><i class="fa fa-city me-2" style="font-size: 14px; opacity: 0.8;"></i> Rotenburg</h3>
+                        
+                        
+                            <div class="place">
+                                <div class="place-name">
+                                    <a href="/gallery?images=/static/images/rotenburg4.jpg&title=Rotenburg%202015" target="_blank">
+                                        <i class="fa fa-images"></i> Rotenburg 2015
+                                    </a>
+                                </div>
                                 
-                                    <img src="/static/images/ml12.jpg" alt="Photo Marianske Lazne 2024" class="images">
-                                
-                                    <img src="/static/images/ml24.jpg" alt="Photo Marianske Lazne 2024" class="images">
-                                
-                                    <img src="/static/images/ml102.jpg" alt="Photo Marianske Lazne 2024" class="images">
-                                
+                                <div class="images">
+                                    
+                                        <img src="/static/images/rotenburg4.jpg" alt="Photo of Rotenburg 2015" loading="lazy" onclick="window.open('/gallery?images=/static/images/rotenburg4.jpg&title=Rotenburg%202015', '_blank')">
+                                    
+                                </div>
                             </div>
-                        </div>
-                    
+                        
+                    </div>
+                
+                    <div class="city">
+                        <h3 class="city-name"><i class="fa fa-city me-2" style="font-size: 14px; opacity: 0.8;"></i> Gannover</h3>
+                        
+                        
+                            <div class="place">
+                                <div class="place-name">
+                                    <a href="/gallery?images=/static/images/gannover1-3.jpg,/static/images/gannover1-4.jpg&title=Gannover%202011" target="_blank">
+                                        <i class="fa fa-images"></i> Gannover 2011
+                                    </a>
+                                </div>
+                                
+                                <div class="images">
+                                    
+                                        <img src="/static/images/gannover1-3.jpg" alt="Photo of Gannover 2011" loading="lazy" onclick="window.open('/gallery?images=/static/images/gannover1-3.jpg,/static/images/gannover1-4.jpg&title=Gannover%202011', '_blank')">
+                                    
+                                        <img src="/static/images/gannover1-4.jpg" alt="Photo of Gannover 2011" loading="lazy" onclick="window.open('/gallery?images=/static/images/gannover1-3.jpg,/static/images/gannover1-4.jpg&title=Gannover%202011', '_blank')">
+                                    
+                                </div>
+                            </div>
+                        
+                    </div>
+                
+            </div>
+        
+            <div class="country" id="Czech Republic">
+                <div class="country-header">
+                    <h2 class="country-name">Czech Republic</h2>
+                    <button class="scroll-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" title="Back to top">
+                        <i class="fa fa-arrow-up"></i>
+                    </button>
                 </div>
-            
-        </div>
-
-   
-        <div class="country"  id="Montenegro">
-            <span class="scroll-to-top" onclick="window.scrollTo(0, 0);">↑</span>
-            <h2 class="country-name" onclick="window.scrollTo(0, 0);">Montenegro</h2>
-            
-            
-                <div class="city">
-                    <h3 class="city-name">Podgorica</h3>
-                    
-                    
-                        <div class="place">
-                            <div class="place-name">
-                                <a href="/gallery?images=/static/images/ostrog3.jpg,/static/images/kotor1.jpg&title=Podgorica%202012" target="_blank">
-                                    Podgorica 2012
-                                </a>
+                
+                
+                    <div class="city">
+                        <h3 class="city-name"><i class="fa fa-city me-2" style="font-size: 14px; opacity: 0.8;"></i> Prague</h3>
+                        
+                        
+                            <div class="place">
+                                <div class="place-name">
+                                    <a href="/gallery?images=/static/images/praha7.jpg,/static/images/praha10.jpg,/static/images/praha8.jpg,/static/images/praha9.jpg&title=Prague%202021" target="_blank">
+                                        <i class="fa fa-images"></i> Prague 2021
+                                    </a>
+                                </div>
+                                
+                                <div class="images">
+                                    
+                                        <img src="/static/images/praha7.jpg" alt="Photo of Prague 2021" loading="lazy" onclick="window.open('/gallery?images=/static/images/praha7.jpg,/static/images/praha10.jpg,/static/images/praha8.jpg,/static/images/praha9.jpg&title=Prague%202021', '_blank')">
+                                    
+                                        <img src="/static/images/praha10.jpg" alt="Photo of Prague 2021" loading="lazy" onclick="window.open('/gallery?images=/static/images/praha7.jpg,/static/images/praha10.jpg,/static/images/praha8.jpg,/static/images/praha9.jpg&title=Prague%202021', '_blank')">
+                                    
+                                        <img src="/static/images/praha8.jpg" alt="Photo of Prague 2021" loading="lazy" onclick="window.open('/gallery?images=/static/images/praha7.jpg,/static/images/praha10.jpg,/static/images/praha8.jpg,/static/images/praha9.jpg&title=Prague%202021', '_blank')">
+                                    
+                                        <img src="/static/images/praha9.jpg" alt="Photo of Prague 2021" loading="lazy" onclick="window.open('/gallery?images=/static/images/praha7.jpg,/static/images/praha10.jpg,/static/images/praha8.jpg,/static/images/praha9.jpg&title=Prague%202021', '_blank')">
+                                    
+                                </div>
                             </div>
-
-                            
-                            <div class="images">
+                        
+                    </div>
+                
+                    <div class="city">
+                        <h3 class="city-name"><i class="fa fa-city me-2" style="font-size: 14px; opacity: 0.8;"></i> Marianske Lazne</h3>
+                        
+                        
+                            <div class="place">
+                                <div class="place-name">
+                                    <a href="/gallery?images=/static/images/ml12.jpg,/static/images/ml24.jpg,/static/images/ml102.jpg&title=Marianske%20Lazne%202024" target="_blank">
+                                        <i class="fa fa-images"></i> Marianske Lazne 2024
+                                    </a>
+                                </div>
                                 
-                                    <img src="/static/images/ostrog3.jpg" alt="Photo Podgorica 2012" class="images">
-                                
-                                    <img src="/static/images/kotor1.jpg" alt="Photo Podgorica 2012" class="images">
-                                
+                                <div class="images">
+                                    
+                                        <img src="/static/images/ml12.jpg" alt="Photo of Marianske Lazne 2024" loading="lazy" onclick="window.open('/gallery?images=/static/images/ml12.jpg,/static/images/ml24.jpg,/static/images/ml102.jpg&title=Marianske%20Lazne%202024', '_blank')">
+                                    
+                                        <img src="/static/images/ml24.jpg" alt="Photo of Marianske Lazne 2024" loading="lazy" onclick="window.open('/gallery?images=/static/images/ml12.jpg,/static/images/ml24.jpg,/static/images/ml102.jpg&title=Marianske%20Lazne%202024', '_blank')">
+                                    
+                                        <img src="/static/images/ml102.jpg" alt="Photo of Marianske Lazne 2024" loading="lazy" onclick="window.open('/gallery?images=/static/images/ml12.jpg,/static/images/ml24.jpg,/static/images/ml102.jpg&title=Marianske%20Lazne%202024', '_blank')">
+                                    
+                                </div>
                             </div>
-                        </div>
-                    
+                        
+                    </div>
+                
+            </div>
+        
+            <div class="country" id="Montenegro">
+                <div class="country-header">
+                    <h2 class="country-name">Montenegro</h2>
+                    <button class="scroll-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" title="Back to top">
+                        <i class="fa fa-arrow-up"></i>
+                    </button>
                 </div>
-            
-        </div>
-
-   
-        <div class="country"  id="Poland">
-            <span class="scroll-to-top" onclick="window.scrollTo(0, 0);">↑</span>
-            <h2 class="country-name" onclick="window.scrollTo(0, 0);">Poland</h2>
-            
-            
-                <div class="city">
-                    <h3 class="city-name">Warsaw</h3>
-                    
-                    
-                        <div class="place">
-                            <div class="place-name">
-                                <a href="/gallery?images=/static/images/warsaw1.jpg,/static/images/warsaw11.jpg&title=Warsaw%202022" target="_blank">
-                                    Warsaw 2022
-                                </a>
+                
+                
+                    <div class="city">
+                        <h3 class="city-name"><i class="fa fa-city me-2" style="font-size: 14px; opacity: 0.8;"></i> Podgorica</h3>
+                        
+                        
+                            <div class="place">
+                                <div class="place-name">
+                                    <a href="/gallery?images=/static/images/ostrog3.jpg,/static/images/kotor1.jpg&title=Podgorica%202012" target="_blank">
+                                        <i class="fa fa-images"></i> Podgorica 2012
+                                    </a>
+                                </div>
+                                
+                                <div class="images">
+                                    
+                                        <img src="/static/images/ostrog3.jpg" alt="Photo of Podgorica 2012" loading="lazy" onclick="window.open('/gallery?images=/static/images/ostrog3.jpg,/static/images/kotor1.jpg&title=Podgorica%202012', '_blank')">
+                                    
+                                        <img src="/static/images/kotor1.jpg" alt="Photo of Podgorica 2012" loading="lazy" onclick="window.open('/gallery?images=/static/images/ostrog3.jpg,/static/images/kotor1.jpg&title=Podgorica%202012', '_blank')">
+                                    
+                                </div>
                             </div>
-
-                            
-                            <div class="images">
-                                
-                                    <img src="/static/images/warsaw1.jpg" alt="Photo Warsaw 2022" class="images">
-                                
-                                    <img src="/static/images/warsaw11.jpg" alt="Photo Warsaw 2022" class="images">
-                                
-                            </div>
-                        </div>
-                    
-                        <div class="place">
-                            <div class="place-name">
-                                <a href="/gallery?images=/static/images/warsaw-park-3.jpg,/static/images/warsaw-park-4.jpg,/static/images/warsaw-park-5.jpg,/static/images/warsaw-park-6.jpg&title=Warsaw%202023%20%28Royal%20Lazienki%20Park%29" target="_blank">
-                                    Warsaw 2023 (Royal Lazienki Park)
-                                </a>
-                            </div>
-
-                            
-                            <div class="images">
-                                
-                                    <img src="/static/images/warsaw-park-3.jpg" alt="Photo Warsaw 2023 (Royal Lazienki Park)" class="images">
-                                
-                                    <img src="/static/images/warsaw-park-4.jpg" alt="Photo Warsaw 2023 (Royal Lazienki Park)" class="images">
-                                
-                                    <img src="/static/images/warsaw-park-5.jpg" alt="Photo Warsaw 2023 (Royal Lazienki Park)" class="images">
-                                
-                                    <img src="/static/images/warsaw-park-6.jpg" alt="Photo Warsaw 2023 (Royal Lazienki Park)" class="images">
-                                
-                            </div>
-                        </div>
-                    
+                        
+                    </div>
+                
+            </div>
+        
+            <div class="country" id="Poland">
+                <div class="country-header">
+                    <h2 class="country-name">Poland</h2>
+                    <button class="scroll-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" title="Back to top">
+                        <i class="fa fa-arrow-up"></i>
+                    </button>
                 </div>
-            
-        </div>
-
-   
-        <div class="country"  id="Spain">
-            <span class="scroll-to-top" onclick="window.scrollTo(0, 0);">↑</span>
-            <h2 class="country-name" onclick="window.scrollTo(0, 0);">Spain</h2>
-            
-            
-                <div class="city">
-                    <h3 class="city-name">Barselona</h3>
-                    
-                    
-                        <div class="place">
-                            <div class="place-name">
-                                <a href="/gallery?images=/static/images/brsn2.jpg,/static/images/brsn1.jpg,/static/images/brsn3.jpg,/static/images/brsn4.jpg&title=Barselona%202023" target="_blank">
-                                    Barselona 2023
-                                </a>
+                
+                
+                    <div class="city">
+                        <h3 class="city-name"><i class="fa fa-city me-2" style="font-size: 14px; opacity: 0.8;"></i> Warsaw</h3>
+                        
+                        
+                            <div class="place">
+                                <div class="place-name">
+                                    <a href="/gallery?images=/static/images/warsaw1.jpg,/static/images/warsaw11.jpg&title=Warsaw%202022" target="_blank">
+                                        <i class="fa fa-images"></i> Warsaw 2022
+                                    </a>
+                                </div>
+                                
+                                <div class="images">
+                                    
+                                        <img src="/static/images/warsaw1.jpg" alt="Photo of Warsaw 2022" loading="lazy" onclick="window.open('/gallery?images=/static/images/warsaw1.jpg,/static/images/warsaw11.jpg&title=Warsaw%202022', '_blank')">
+                                    
+                                        <img src="/static/images/warsaw11.jpg" alt="Photo of Warsaw 2022" loading="lazy" onclick="window.open('/gallery?images=/static/images/warsaw1.jpg,/static/images/warsaw11.jpg&title=Warsaw%202022', '_blank')">
+                                    
+                                </div>
                             </div>
-
-                            
-                            <div class="images">
+                        
+                            <div class="place">
+                                <div class="place-name">
+                                    <a href="/gallery?images=/static/images/warsaw-park-3.jpg,/static/images/warsaw-park-4.jpg,/static/images/warsaw-park-5.jpg,/static/images/warsaw-park-6.jpg&title=Warsaw%202023%20%28Royal%20Lazienki%20Park%29" target="_blank">
+                                        <i class="fa fa-images"></i> Warsaw 2023 (Royal Lazienki Park)
+                                    </a>
+                                </div>
                                 
-                                    <img src="/static/images/brsn2.jpg" alt="Photo Barselona 2023" class="images">
-                                
-                                    <img src="/static/images/brsn1.jpg" alt="Photo Barselona 2023" class="images">
-                                
-                                    <img src="/static/images/brsn3.jpg" alt="Photo Barselona 2023" class="images">
-                                
-                                    <img src="/static/images/brsn4.jpg" alt="Photo Barselona 2023" class="images">
-                                
+                                <div class="images">
+                                    
+                                        <img src="/static/images/warsaw-park-3.jpg" alt="Photo of Warsaw 2023 (Royal Lazienki Park)" loading="lazy" onclick="window.open('/gallery?images=/static/images/warsaw-park-3.jpg,/static/images/warsaw-park-4.jpg,/static/images/warsaw-park-5.jpg,/static/images/warsaw-park-6.jpg&title=Warsaw%202023%20%28Royal%20Lazienki%20Park%29', '_blank')">
+                                    
+                                        <img src="/static/images/warsaw-park-4.jpg" alt="Photo of Warsaw 2023 (Royal Lazienki Park)" loading="lazy" onclick="window.open('/gallery?images=/static/images/warsaw-park-3.jpg,/static/images/warsaw-park-4.jpg,/static/images/warsaw-park-5.jpg,/static/images/warsaw-park-6.jpg&title=Warsaw%202023%20%28Royal%20Lazienki%20Park%29', '_blank')">
+                                    
+                                        <img src="/static/images/warsaw-park-5.jpg" alt="Photo of Warsaw 2023 (Royal Lazienki Park)" loading="lazy" onclick="window.open('/gallery?images=/static/images/warsaw-park-3.jpg,/static/images/warsaw-park-4.jpg,/static/images/warsaw-park-5.jpg,/static/images/warsaw-park-6.jpg&title=Warsaw%202023%20%28Royal%20Lazienki%20Park%29', '_blank')">
+                                    
+                                        <img src="/static/images/warsaw-park-6.jpg" alt="Photo of Warsaw 2023 (Royal Lazienki Park)" loading="lazy" onclick="window.open('/gallery?images=/static/images/warsaw-park-3.jpg,/static/images/warsaw-park-4.jpg,/static/images/warsaw-park-5.jpg,/static/images/warsaw-park-6.jpg&title=Warsaw%202023%20%28Royal%20Lazienki%20Park%29', '_blank')">
+                                    
+                                </div>
                             </div>
-                        </div>
-                    
+                        
+                    </div>
+                
+            </div>
+        
+            <div class="country" id="Spain">
+                <div class="country-header">
+                    <h2 class="country-name">Spain</h2>
+                    <button class="scroll-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" title="Back to top">
+                        <i class="fa fa-arrow-up"></i>
+                    </button>
                 </div>
-            
-        </div>
-
-   
-   </div>
+                
+                
+                    <div class="city">
+                        <h3 class="city-name"><i class="fa fa-city me-2" style="font-size: 14px; opacity: 0.8;"></i> Barselona</h3>
+                        
+                        
+                            <div class="place">
+                                <div class="place-name">
+                                    <a href="/gallery?images=/static/images/brsn2.jpg,/static/images/brsn1.jpg,/static/images/brsn3.jpg,/static/images/brsn4.jpg&title=Barselona%202023" target="_blank">
+                                        <i class="fa fa-images"></i> Barselona 2023
+                                    </a>
+                                </div>
+                                
+                                <div class="images">
+                                    
+                                        <img src="/static/images/brsn2.jpg" alt="Photo of Barselona 2023" loading="lazy" onclick="window.open('/gallery?images=/static/images/brsn2.jpg,/static/images/brsn1.jpg,/static/images/brsn3.jpg,/static/images/brsn4.jpg&title=Barselona%202023', '_blank')">
+                                    
+                                        <img src="/static/images/brsn1.jpg" alt="Photo of Barselona 2023" loading="lazy" onclick="window.open('/gallery?images=/static/images/brsn2.jpg,/static/images/brsn1.jpg,/static/images/brsn3.jpg,/static/images/brsn4.jpg&title=Barselona%202023', '_blank')">
+                                    
+                                        <img src="/static/images/brsn3.jpg" alt="Photo of Barselona 2023" loading="lazy" onclick="window.open('/gallery?images=/static/images/brsn2.jpg,/static/images/brsn1.jpg,/static/images/brsn3.jpg,/static/images/brsn4.jpg&title=Barselona%202023', '_blank')">
+                                    
+                                        <img src="/static/images/brsn4.jpg" alt="Photo of Barselona 2023" loading="lazy" onclick="window.open('/gallery?images=/static/images/brsn2.jpg,/static/images/brsn1.jpg,/static/images/brsn3.jpg,/static/images/brsn4.jpg&title=Barselona%202023', '_blank')">
+                                    
+                                </div>
+                            </div>
+                        
+                    </div>
+                
+            </div>
+        
+    </div>
 </body>
 </html>

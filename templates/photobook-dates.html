@@ -1,242 +1,377 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Timeline</title>
-  <style>
-    /* Стили контейнера книги */
-    .book-container {
-      all: unset;
-      flex: initial;
-      display: initial;
-    }
-    /* Basic styling for the timeline */
-    .timeline {
-      display: flex;
-      flex-direction: column;
-      width: 100%; /* Заголовок на всю ширину */
-    }
-    .year {
-      margin-bottom: 20px;
-      position: relative;
-    }
-    .year-title {
-      background-color: #4CAF50;
-      color: white;
-      padding: 10px;
-      margin: 0;
-      cursor: pointer;
-      width: 100%; /* Заголовок на всю ширину */
-      box-sizing: border-box; /* Включаем padding в ширину */
-    }
-    .place {
-      margin-bottom: 10px;
-    }
-    .place-title {
-      font-weight: bold;
-      margin-left: 2em;
-      background-color: #f39c12;
-      color: white;
-      padding: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      width: calc(100% - 2em); /* Заголовок на всю ширину, с учетом отступа слева */
-      box-sizing: border-box; /* Включаем padding в ширину */
-    }
-    .place-title a {
-      text-decoration: none;
-      color: white;
-    }
-    .place-title a:hover {
-      text-decoration: underline;
-    }
-    .entry {
-      margin-bottom: 5px;
-    }
-    .images {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-      margin-left: 2em;
-      margin-top: 1em;
-    }
-    .images img {
-      height: 350px;
-      display: block;
-      width: auto;
-      border: 2px solid #ccc;
-    }
-    /* Секции с фотографиями изначально показываются */
-    .photos-container {
-      /* display: none; */ /* Removed this line */
-    }
-    /* Стили для кнопок переключения внутри места */
-    .toggle-button {
-      cursor: pointer;
-      margin-left: 10px;
-      font-size: 16px;
-      user-select: none;
-    }
-    /* Кнопка "Открыть все/Закрыть все" */
-    .toggle-all-button {
-      margin-bottom: 20px;
-      padding: 10px 15px;
-      background-color: #f39c12;
-      color: white;
-      border: none;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    /* Прочие стили */
-    .country-links {
-      margin-bottom: 20px;
-      width: 100%; /* Заголовок на всю ширину */
-    }
-    .country-links a {
-      margin-right: 15px;
-      text-decoration: none;
-      color: #3498db;
-    }
-    .country-links a:hover {
-      text-decoration: underline;
-    }
-    /*
-    * Styles for the country blocks
-    */
-    .country {
-        margin-left: 1em;
-        margin-bottom: 1em;
-    }
-    .country-name {
-        background-color: #3498db;  /* Цвет фона */
-        color: white;               /* Цвет текста */
-        padding: 10px;              /* Отступы внутри элемента */
-        margin: 2;                  /* Убираем внешние отступы, если не нужно */
-        width: calc(100% - 1em); /* Заголовок на всю ширину, с учетом отступа слева */
-        box-sizing: border-box; /* Включаем padding в ширину */
-    }
-    .close-button {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background-color: transparent;
-      border: none;
-      color: black;
-      font-size: 24px;
-      cursor: pointer;
-    }
-    /* Media query for mobile devices */
-    @media (max-width: 800px) {
-    .images img {
-            max-height: 80vh;
-            max-width: 80vw;
-            width: auto;
-            height: auto;
-            margin: auto;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Timeline</title>
+    <!-- Load Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Base Styles & Typography */
+        .map-container {
+            display: block !important;
+            overflow-y: auto;
         }
-    }
-  </style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FAF9F6; /* Soft premium cream/paper color */
+            color: #2C3E50;
+            margin: 0;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .book-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            font-weight: 700;
+            text-align: center;
+            color: #1A252F;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #7F8C8D;
+            font-size: 16px;
+            margin-bottom: 30px;
+            font-style: italic;
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Floating Controls */
+        .close-button {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            font-size: 20px;
+            cursor: pointer;
+            color: #2C3E50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: all 0.2s ease;
+            z-index: 1000;
+        }
+        .close-button:hover {
+            background-color: #E74C3C;
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        /* Toggle All Button */
+        .toggle-all-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .toggle-all-button {
+            padding: 10px 20px;
+            background-color: #F39C12;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(243, 156, 18, 0.2);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .toggle-all-button:hover {
+            background-color: #E67E22;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 15px rgba(243, 156, 18, 0.3);
+        }
+
+        /* Navigation Menu */
+        .country-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 40px;
+            padding: 10px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .country-links a {
+            text-decoration: none;
+            color: #34495E;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 8px 16px;
+            background-color: rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.02);
+            border-radius: 20px;
+            transition: all 0.2s ease;
+        }
+        .country-links a:hover {
+            background-color: #4CAF50;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.25);
+        }
+
+        /* Timeline Layout */
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Year Block */
+        .year {
+            position: relative;
+        }
+        .year-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .year-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #2C3E50;
+            cursor: pointer;
+        }
+        
+        /* Country Block */
+        .country {
+            margin-bottom: 30px;
+            padding-left: 15px;
+            border-left: 3px solid rgba(52, 152, 219, 0.3);
+        }
+        .country-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2980B9;
+            margin: 0 0 15px 0;
+            letter-spacing: -0.3px;
+        }
+
+        /* Place Block */
+        .place {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.02);
+            border: 1px solid rgba(0,0,0,0.02);
+            margin-bottom: 18px;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+        .place-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: rgba(243, 156, 18, 0.05);
+            padding: 14px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #2C3E50;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(243, 156, 18, 0.1);
+        }
+        .place-title a {
+            text-decoration: none;
+            color: #D35400;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .place-title a:hover {
+            text-decoration: underline;
+        }
+
+        .toggle-button {
+            color: #7F8C8D;
+            font-size: 14px;
+            transition: transform 0.2s ease;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(0,0,0,0.02);
+        }
+        .place.collapsed .toggle-button i {
+            transform: rotate(-90deg);
+        }
+
+        /* Photo Container */
+        .photos-container {
+            padding: 20px;
+            background-color: #ffffff;
+            transition: all 0.3s ease;
+        }
+        .place.collapsed .photos-container {
+            display: none;
+        }
+
+        .images {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .images img {
+            height: 240px;
+            width: auto;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .images img:hover {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            border-color: rgba(0,0,0,0.15);
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 10px;
+            }
+            .close-button {
+                top: 15px;
+                right: 15px;
+                width: 38px;
+                height: 38px;
+                font-size: 16px;
+            }
+            h1 {
+                font-size: 30px;
+            }
+            .place-title {
+                padding: 12px 15px;
+            }
+            .photos-container {
+                padding: 15px;
+            }
+            .images img {
+                height: 180px;
+                max-width: 100%;
+                width: auto;
+            }
+        }
+    </style>
 </head>
 <body id="top">
-  <button class="close-button" onclick="window.close()">×</button>
-  <div class="book-container">
-    <h1>Travel Timeline</h1>
-    <!-- Кнопка для открытия/закрытия всех секций -->
-    <button id="toggle-all" class="toggle-all-button" onclick="toggleAllPhotos()">Hide all photos</button>
-    
-    <!-- Навигационное меню -->
-    <div class="country-links">
-      {% for year, places in timeline_data.items() %}
-        <a href="#{{ year }}">{{ year }}</a>
-      {% endfor %}
-    </div>
-    <div class="timeline">
-      {% for year, countries in timeline_data.items() %}
-      <div class="year" id="{{ year }}">
-        <div class="year-title" onclick="window.scrollTo(0, 0);">{{ year }}</div>
-        {% for country, places in countries.items() %}
-        <div class="country">
-          <h3 class="country-name">{{ country }}</h3>
-          {% for place, entries in places.items() %}
-          <div class="place">
-            <div class="place-title">
-              <a href="/gallery?images={% for img in entries[0].images %}{{ img|urlencode }}{% if not loop.last %},{% endif %}{% endfor %}&title={{ place|urlencode }}" target="_blank">
-                {{ place }}
-              </a>
-              <!-- Кнопка для сворачивания/разворачивания фотографий -->
-              <span class="toggle-button" onclick="togglePhotos(this)">▼</span>
-            </div>
-            {% if is_img == 'true' %}
-            <!-- Контейнер для фотографий, изначально показывается -->
-            <div class="photos-container">
-              {% for entry in entries %}
-              <div class="entry">
-                <!-- Координаты: {{ entry.coords }} -->
-                <div class="images">
-                  {% for image in entry.images %}
-                  <img src="{{ image }}" alt="Photo {{ place }}" class="images">
-                  {% endfor %}
-                </div>
-              </div>
-              {% endfor %}
-            </div>
-            {% endif %}
-          </div>
-          {% endfor %}
+    <!-- Floating Close Button -->
+    <button class="close-button" onclick="window.close()" title="Close Book"><i class="fa fa-times"></i></button>
+
+    <div class="book-container">
+        <h1>Travel Timeline</h1>
+        <div class="subtitle">A chronological record of journeys over the years</div>
+
+        <!-- Toggle All Photos Button -->
+        <div class="toggle-all-container">
+            <button id="toggle-all" class="toggle-all-button" onclick="toggleAllPhotos()">
+                <i class="fa fa-eye-slash"></i> <span>Hide all photos</span>
+            </button>
         </div>
-        {% endfor %}
-      </div>
-      {% endfor %}
+        
+        <!-- Navigation Menu -->
+        <div class="country-links">
+            {% for year, countries in timeline_data.items() %}
+                <a href="#{{ year }}"><i class="fa fa-calendar-alt me-1" style="font-size: 11px;"></i> {{ year }}</a>
+            {% endfor %}
+        </div>
+
+        <div class="timeline">
+            {% for year, countries in timeline_data.items() %}
+            <div class="year" id="{{ year }}">
+                <div class="year-header">
+                    <div class="year-title" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">{{ year }}</div>
+                </div>
+                
+                {% for country, places in countries.items() %}
+                <div class="country">
+                    <h3 class="country-name"><i class="fa fa-map-marker-alt me-2" style="font-size: 14px; opacity: 0.8;"></i> {{ country }}</h3>
+                    
+                    {% for place, entries in places.items() %}
+                    <div class="place">
+                        <div class="place-title" onclick="togglePhotos(this)">
+                            <a href="/gallery?images={% for img in entries[0].images %}{{ img|urlencode }}{% if not loop.last %},{% endif %}{% endfor %}&title={{ place|urlencode }}" target="_blank" onclick="event.stopPropagation();">
+                                <i class="fa fa-images"></i> {{ place }}
+                            </a>
+                            <span class="toggle-button"><i class="fa fa-chevron-down"></i></span>
+                        </div>
+                        
+                        {% if is_img == 'true' %}
+                        <div class="photos-container">
+                            {% for entry in entries %}
+                            <div class="entry">
+                                <div class="images">
+                                    {% for image in entry.images %}
+                                        <img src="{{ image }}" alt="Photo of {{ place }}" loading="lazy" onclick="window.open('/gallery?images={% for im in entry.images %}{{ im|urlencode }}{% if not loop.last %},{% endif %}{% endfor %}&title={{ place|urlencode }}', '_blank')">
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
     </div>
-  </div>
 
-  <script>
-    // Функция для переключения видимости одной секции с фотографиями
-    function togglePhotos(button) {
-      const placeDiv = button.closest('.place');
-      const photosContainer = placeDiv.querySelector('.photos-container');
-      if (photosContainer) {
-        const currentDisplay = window.getComputedStyle(photosContainer).display;
-        if (currentDisplay !== 'none') {
-          photosContainer.style.display = 'none';
-          button.textContent = '▲';
-        } else {
-          photosContainer.style.display = 'block';
-          button.textContent = '▼';
+    <script>
+        // Toggle single place collapsibility
+        function togglePhotos(titleElement) {
+            const placeDiv = titleElement.closest('.place');
+            placeDiv.classList.toggle('collapsed');
         }
-      }
-      event.stopPropagation();
-    }
 
-    // Функция для открытия/закрытия всех секций
-    function toggleAllPhotos() {
-      const toggleAllBtn = document.getElementById('toggle-all');
-      const containers = document.querySelectorAll('.photos-container');
-      const toggleButtons = document.querySelectorAll('.toggle-button');
+        // Toggle all sections visibility
+        function toggleAllPhotos() {
+            const btn = document.getElementById('toggle-all');
+            const places = document.querySelectorAll('.place');
+            const icon = btn.querySelector('i');
+            const text = btn.querySelector('span');
 
-      if (toggleAllBtn.innerText.trim() === "Show all photos") {
-        // Открываем все секции
-        containers.forEach(function(container) {
-          container.style.display = 'block';
-        });
-        toggleButtons.forEach(function(button) {
-          button.textContent = '▼';
-        });
-        toggleAllBtn.textContent = "Hide all photos";
-      } else {
-        // Закрываем все секции
-        containers.forEach(function(container) {
-          container.style.display = 'none';
-        });
-        toggleButtons.forEach(function(button) {
-          button.textContent = '▲';
-        });
-        toggleAllBtn.textContent = "Show all photos";
-      }
-    }
-  </script>
+            const isHiding = text.textContent.trim() === "Hide all photos";
+
+            if (isHiding) {
+                places.forEach(p => p.classList.add('collapsed'));
+                icon.className = "fa fa-eye";
+                text.textContent = "Show all photos";
+            } else {
+                places.forEach(p => p.classList.remove('collapsed'));
+                icon.className = "fa fa-eye-slash";
+                text.textContent = "Hide all photos";
+            }
+        }
+    </script>
 </body>
 </html>

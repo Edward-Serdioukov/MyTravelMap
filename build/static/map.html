@@ -42,24 +42,28 @@
 <body>
     
     
-<div style="position: fixed; 
-            bottom: 10px; left: 10px; 
-            z-index: 9999; 
-            background-color: white; 
-            padding: 10px; 
-            border-radius: 5px; 
-            box-shadow: 0 0 5px rgba(0,0,0,0.5);">
-    <button onclick="document.getElementById('info').style.display='block';">?</button>
-   
-   <div id="info" style="display:none; position:absolute; top:-320px; left:0; background-color:white; padding:10px; border-radius:5px; box-shadow: 0 0 5px rgba(0,0,0,0.5); height:300px; width:200px; overflow:auto;">
-        <p><b>Help</b></p>
-        <p>To see the photo, you need to click on the marker. A popup window with small photos will open. 
-        If you click on any photo in the popup, a new window with large photos will open.</p>
-        <button onclick="document.getElementById('info').style.display='none';">Close</button>
-        <a href="/book" target="_blank">&#127758;</a>
-        <a href="/book-dates" target="_blank">&#128197;</a> 
+<div class="map-help-container">
+    <button class="help-toggle-btn" onclick="toggleHelp()"><i class="fa fa-question"></i></button>
+    <div id="info" class="help-box-content">
+        <div class="help-header">
+            <h4><i class="fa fa-info-circle"></i> How to use</h4>
+            <button class="help-close-btn" onclick="toggleHelp()">&times;</button>
+        </div>
+        <p>To see photos, click on any marker on the map. A popup window with photo previews will open.</p>
+        <p>Click on any photo in the popup to view the full screen gallery.</p>
+        <div class="help-links">
+            <a href="/book1" target="_parent" class="help-link-btn"><i class="fa fa-globe"></i> Book 1</a>
+            <a href="/book2" target="_parent" class="help-link-btn"><i class="fa fa-calendar"></i> Book 2</a>
+        </div>
     </div>
 </div>
+
+<script>
+function toggleHelp() {
+    const info = document.getElementById('info');
+    info.classList.toggle('show');
+}
+</script>
     
             <div class="folium-map" id="map_996651772661c55ff21c9a58dd9d661c" ></div>
         
