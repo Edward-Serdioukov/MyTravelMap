@@ -2,6 +2,51 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<iframe src="{{ url_for('static', filename=map_url) }}" ></iframe>
+<iframe id="map-iframe" src="{{ url_for('static', filename=map_url) }}" style="width: 100%; height: 100%; border: none;"></iframe>
+<script>
+    document.getElementById('map-iframe').addEventListener('load', function() {
+        const iframe = this;
+        const iframeWindow = iframe.contentWindow;
+        
+        // Find Leaflet map object inside the iframe context
+        let mapVar = null;
+        for (let prop in iframeWindow) {
+            if (prop.startsWith('map_') && iframeWindow[prop] && typeof iframeWindow[prop].addLayer === 'function') {
+                mapVar = iframeWindow[prop];
+                break;
+            }
+        }
+        
+        if (mapVar && iframeWindow.L) {
+            const localLocations = JSON.parse(localStorage.getItem('local_places_visited') || '[]');
+            
+            localLocations.forEach(function(place) {
+                // Generate images list
+                let imagesHtml = '';
+                if (place.images && place.images.length > 0) {
+                    place.images.forEach(function(imgSrc) {
+                        imagesHtml += `<img src="${imgSrc}" alt="Image" style="width:100%; margin-bottom:5px; border-radius: 4px;">`;
+                    });
+                } else {
+                    imagesHtml = '<p style="color: #999; font-size: 12px; margin: 5px 0;">No images uploaded</p>';
+                }
+                
+                const popupContent = `
+                    <div class="filmstrip" id="image-popup" style="width:300px; height:410px; overflow-y: scroll; font-family: sans-serif; padding: 5px;">
+                        <b style="font-size: 16px; display: block; margin-bottom: 8px;">${place.name}</b>
+                        ${imagesHtml}
+                    </div>
+                `;
+                
+                // Add marker to map
+                const marker = iframeWindow.L.marker([place.latitude, place.longitude])
+                    .addTo(mapVar);
+                
+                marker.bindPopup(popupContent);
+                marker.bindTooltip(`<div>${place.name}</div>`, { sticky: true });
+            });
+        }
+    });
+</script>
 {% endblock %}
 

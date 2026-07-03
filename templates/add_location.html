@@ -43,6 +43,8 @@
 <!-- Load Bootstrap 5 & FontAwesome for Styling as per mytrips.fly.dev -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <div class="main-content">
     <div class="container mt-4 mb-5">
@@ -60,7 +62,10 @@
                             <label for="location_name" class="form-label font-weight-bold">Location Name:</label>
                             <div style="display: flex; align-items: center; gap: 10px;">
                                 <input type="text" class="form-control" id="location_name" name="location_name" required style="flex-grow: 1;">
-                                <button type="button" id="geocode_button" class="btn btn-secondary" title="Find coordinates by name">Find Coords</button>
+                                <button type="button" id="geocode_button" class="btn btn-secondary d-flex align-items-center gap-2" title="Find coordinates by name">
+                                    <span id="geocode-spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+                                    <span id="geocode-text">Find Coords</span>
+                                </button>
                             </div>
                         </div>
 
@@ -78,6 +83,12 @@
                                 <label for="longitude" class="form-label font-weight-bold">Longitude:</label>
                                 <input type="number" step="any" class="form-control" id="longitude" name="longitude" required placeholder="e.g., 25.2818">
                             </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label font-weight-bold">Select Location on Map:</label>
+                            <div id="mini-map" style="height: 220px; border-radius: 8px; border: 1px solid #ced4da; z-index: 1;"></div>
+                            <div class="form-text text-muted">Click anywhere on the map to place a pin, or drag it to refine coordinates.</div>
                         </div>
                     </fieldset>
 
@@ -156,12 +167,59 @@
         const form = document.getElementById('addLocationForm');
         const previewContainer = document.getElementById('image-preview');
 
-        // Initialize SortableJS
+        // --- Leaflet Mini Map Initialization ---
+        const miniMap = L.map('mini-map').setView([20, 0], 2);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(miniMap);
+
+        let miniMapMarker = null;
+
+        function updateMiniMapMarker(lat, lon, animate = true) {
+            if (miniMapMarker) {
+                miniMapMarker.setLatLng([lat, lon]);
+            } else {
+                miniMapMarker = L.marker([lat, lon], { draggable: true }).addTo(miniMap);
+                miniMapMarker.on('dragend', function() {
+                    const position = miniMapMarker.getLatLng();
+                    latInput.value = position.lat.toFixed(6);
+                    lonInput.value = position.lng.toFixed(6);
+                });
+            }
+            if (animate) {
+                miniMap.setView([lat, lon], 12);
+            } else {
+                miniMap.panTo([lat, lon]);
+            }
+        }
+
+        // Map click places pin
+        miniMap.on('click', function(event) {
+            const lat = event.latlng.lat;
+            const lon = event.latlng.lng;
+            latInput.value = lat.toFixed(6);
+            lonInput.value = lon.toFixed(6);
+            updateMiniMapMarker(lat, lon, false);
+        });
+
+        // Form changes update map marker
+        function handleManualCoordsChange() {
+            const lat = parseFloat(latInput.value);
+            const lon = parseFloat(lonInput.value);
+            if (!isNaN(lat) && !isNaN(lon)) {
+                updateMiniMapMarker(lat, lon, false);
+            }
+        }
+        latInput.addEventListener('input', handleManualCoordsChange);
+        lonInput.addEventListener('input', handleManualCoordsChange);
+
+        // --- SortableJS PREVIEW ---
         const sortable = Sortable.create(previewContainer, {
             animation: 150,
             ghostClass: 'sortable-ghost',
             chosenClass: 'sortable-chosen',
-            filter: '.remove-btn', // Do not drag via the remove button
+            filter: '.remove-btn',
             preventOnFilter: false,
             onEnd: function() {
                 reorderFilesArray();
@@ -185,19 +243,15 @@
                 });
                 renderPreviews();
             }
-            // Clear input value so same files can be selected again
             fileInput.value = '';
         });
 
         // Render Preview Thumbnails
         function renderPreviews() {
             previewContainer.innerHTML = '';
-            
-            if (uploadedFiles.length === 0) {
-                return;
-            }
+            if (uploadedFiles.length === 0) return;
 
-            uploadedFiles.forEach((fileObj, index) => {
+            uploadedFiles.forEach((fileObj) => {
                 const col = document.createElement('div');
                 col.className = 'col sortable-item';
                 col.setAttribute('data-id', fileObj.id);
@@ -209,17 +263,13 @@
                         <div class="small text-truncate text-muted px-1" style="font-size: 11px;">${fileObj.file.name}</div>
                     </div>
                 `;
-                
-                // Add delete button event listener
                 col.querySelector('.remove-btn').addEventListener('click', function() {
                     removeFile(fileObj.id);
                 });
-
                 previewContainer.appendChild(col);
             });
         }
 
-        // Remove File helper
         window.removeFile = function(id) {
             const index = uploadedFiles.findIndex(item => item.id === id);
             if (index > -1) {
@@ -229,7 +279,6 @@
             }
         };
 
-        // Sync local array order with DOM drag and drop result
         function reorderFilesArray() {
             const sortedIds = Array.from(previewContainer.querySelectorAll('.sortable-item')).map(item => item.getAttribute('data-id'));
             const reordered = [];
@@ -242,7 +291,7 @@
             uploadedFiles = reordered;
         }
 
-        // Geocoding helper
+        // Geocoding with Loading feedback
         async function fetchCoordinates() {
             const locationName = nameInput.value.trim();
             if (!locationName) {
@@ -250,9 +299,13 @@
                 return;
             }
 
-            const originalButtonText = geocodeButton.innerHTML;
-            geocodeButton.innerHTML = 'Searching...';
+            const spinner = document.getElementById('geocode-spinner');
+            const btnText = document.getElementById('geocode-text');
+
+            spinner.style.display = 'inline-block';
+            btnText.textContent = 'Searching...';
             geocodeButton.disabled = true;
+            nameInput.disabled = true;
 
             try {
                 const response = await fetch(`/geocode?location_name=${encodeURIComponent(locationName)}`);
@@ -264,6 +317,7 @@
                         if (data.country) {
                             countryInput.value = data.country;
                         }
+                        updateMiniMapMarker(data.latitude, data.longitude, true);
                     } else {
                         alert('Could not find coordinates for this location. Please enter them manually.');
                     }
@@ -273,16 +327,57 @@
                 }
             } catch (error) {
                 alert('An error occurred while trying to find coordinates.');
-                console.error('An error occurred during the fetch operation:', error);
+                console.error(error);
             } finally {
-                geocodeButton.innerHTML = originalButtonText;
+                spinner.style.display = 'none';
+                btnText.textContent = 'Find Coords';
                 geocodeButton.disabled = false;
+                nameInput.disabled = false;
             }
         }
 
         geocodeButton.addEventListener('click', fetchCoordinates);
 
-        // Submit listener displaying the demo modal
+        // Helper: File to compressed Base64 using HTML5 Canvas
+        function fileToBase64(fileObj) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.src = fileObj.url;
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    const MAX_WIDTH = 400;
+                    const MAX_HEIGHT = 400;
+                    let width = img.width;
+                    let height = img.height;
+                    
+                    if (width > height) {
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                    } else {
+                        if (height > MAX_HEIGHT) {
+                            width *= MAX_HEIGHT / height;
+                            height = MAX_HEIGHT;
+                        }
+                    }
+                    
+                    canvas.width = width;
+                    canvas.height = height;
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                    resolve(dataUrl);
+                };
+                img.onerror = function() {
+                    reject(new Error('Failed to load image'));
+                };
+            });
+        }
+
+        // Submit listener displaying the demo modal and saving to localStorage
         form.addEventListener('submit', function(event) {
             event.preventDefault();
             
@@ -291,32 +386,92 @@
                 return;
             }
 
-            // Set location name
-            document.getElementById('modalLocationName').textContent = nameInput.value.trim();
+            const subBtn = form.querySelector('button[type="submit"]');
+            const origSubText = subBtn.innerHTML;
+            subBtn.disabled = true;
+            subBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Saving...';
 
-            // Populate images into modal to show order
-            const modalImagesPreview = document.getElementById('modalImagesPreview');
-            const modalImagesSection = document.getElementById('modalImagesSection');
-            modalImagesPreview.innerHTML = '';
+            // Convert images to Base64 and save to localStorage
+            const imagePromises = uploadedFiles.map(fileObj => fileToBase64(fileObj));
+            
+            Promise.all(imagePromises).then(base64Images => {
+                const newLocation = {
+                    name: nameInput.value.trim(),
+                    latitude: parseFloat(latInput.value),
+                    longitude: parseFloat(lonInput.value),
+                    country: countryInput.value.trim(),
+                    images: base64Images,
+                    img_orient: document.getElementById('img_orient').value
+                };
 
-            if (uploadedFiles.length > 0) {
-                modalImagesSection.style.display = 'block';
-                uploadedFiles.forEach(fileObj => {
-                    const imgContainer = document.createElement('div');
-                    imgContainer.className = 'text-center border rounded p-1 bg-light';
-                    imgContainer.style.width = '80px';
-                    imgContainer.innerHTML = `
-                        <img src="${fileObj.url}" class="img-thumbnail" style="height: 50px; width: auto; object-fit: cover; display: block; margin: 0 auto 3px auto;">
-                        <div class="text-truncate text-muted" style="font-size: 9px; max-width: 70px;">${fileObj.file.name}</div>
-                    `;
-                    modalImagesPreview.appendChild(imgContainer);
+                const localLocations = JSON.parse(localStorage.getItem('local_places_visited') || '[]');
+                localLocations.push(newLocation);
+                localStorage.setItem('local_places_visited', JSON.stringify(localLocations));
+
+                // Populate images into modal to show order
+                const modalImagesPreview = document.getElementById('modalImagesPreview');
+                const modalImagesSection = document.getElementById('modalImagesSection');
+                modalImagesPreview.innerHTML = '';
+
+                document.getElementById('modalLocationName').textContent = newLocation.name;
+
+                if (newLocation.images.length > 0) {
+                    modalImagesSection.style.display = 'block';
+                    newLocation.images.forEach((base64Src, index) => {
+                        const imgContainer = document.createElement('div');
+                        imgContainer.className = 'text-center border rounded p-1 bg-light';
+                        imgContainer.style.width = '80px';
+                        imgContainer.innerHTML = `
+                            <img src="${base64Src}" class="img-thumbnail" style="height: 50px; width: auto; object-fit: cover; display: block; margin: 0 auto 3px auto;">
+                            <div class="text-truncate text-muted" style="font-size: 9px; max-width: 70px;">Image ${index + 1}</div>
+                        `;
+                        modalImagesPreview.appendChild(imgContainer);
+                    });
+                } else {
+                    modalImagesSection.style.display = 'none';
+                }
+
+                subBtn.disabled = false;
+                subBtn.innerHTML = origSubText;
+
+                const demoModal = new bootstrap.Modal(document.getElementById('demoModal'));
+                demoModal.show();
+
+                // Redirect to homepage on modal close
+                document.getElementById('demoModal').addEventListener('hidden.bs.modal', function () {
+                    window.location.href = '/';
                 });
-            } else {
-                modalImagesSection.style.display = 'none';
-            }
+            }).catch(err => {
+                console.error(err);
+                alert('Error processing images. Saving metadata only.');
+                
+                // Fallback: save without images
+                const newLocation = {
+                    name: nameInput.value.trim(),
+                    latitude: parseFloat(latInput.value),
+                    longitude: parseFloat(lonInput.value),
+                    country: countryInput.value.trim(),
+                    images: [],
+                    img_orient: document.getElementById('img_orient').value
+                };
 
-            const demoModal = new bootstrap.Modal(document.getElementById('demoModal'));
-            demoModal.show();
+                const localLocations = JSON.parse(localStorage.getItem('local_places_visited') || '[]');
+                localLocations.push(newLocation);
+                localStorage.setItem('local_places_visited', JSON.stringify(localLocations));
+
+                document.getElementById('modalLocationName').textContent = newLocation.name;
+                modalImagesSection.style.display = 'none';
+
+                subBtn.disabled = false;
+                subBtn.innerHTML = origSubText;
+
+                const demoModal = new bootstrap.Modal(document.getElementById('demoModal'));
+                demoModal.show();
+
+                document.getElementById('demoModal').addEventListener('hidden.bs.modal', function () {
+                    window.location.href = '/';
+                });
+            });
         });
     });
 </script>
