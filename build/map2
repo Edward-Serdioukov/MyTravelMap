@@ -50,7 +50,7 @@
     </nav>
     <div class="map-container">
         
-<iframe id="map-iframe" src="/static/map2.html" style="width: 100%; height: 100%; border: none;"></iframe>
+<iframe id="map-iframe" src="/static/map2.html"></iframe>
 <script>
     document.getElementById('map-iframe').addEventListener('load', function() {
         const iframe = this;
