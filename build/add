@@ -536,7 +536,7 @@
                         <span class="badge-main">App Store</span>
                     </div>
                 </a>
-                <a href="https://play.google.com/store/search?q=my%20players%20compare&c=apps" target="_blank" class="badge-button">
+                <a href="https://play.google.com/store/apps/details?id=com.edwardserdioukov.mywnba" target="_blank" class="badge-button">
                     <i class="fab fa-google-play badge-icon"></i>
                     <div class="badge-text">
                         <span class="badge-sub">GET IT ON</span>
