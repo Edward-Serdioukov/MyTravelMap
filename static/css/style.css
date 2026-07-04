@@ -439,8 +439,8 @@ footer {
     text-decoration: none !important;
     border: 1px solid #333333;
     border-radius: 6px;
-    padding: 6px 14px;
-    min-width: 135px;
+    padding: 6px 12px;
+    min-width: 120px;
     text-align: left;
     transition: all 0.2s ease;
     box-sizing: border-box;
@@ -451,9 +451,10 @@ footer {
     transform: translateY(-1px);
 }
 .badge-icon {
-    font-size: 20px;
-    margin-right: 8px;
+    font-size: 18px;
+    margin-right: 7px;
     color: #ffffff;
+    flex-shrink: 0;
 }
 .badge-text {
     display: flex;
@@ -461,15 +462,44 @@ footer {
     line-height: 1.2;
 }
 .badge-sub {
-    font-size: 8px;
+    font-size: 7px;
     text-transform: uppercase;
     font-weight: 500;
     color: #cccccc;
     letter-spacing: 0.2px;
 }
 .badge-main {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
+}
+
+/* Mobile: compact horizontal badges */
+@media (max-width: 480px) {
+    footer {
+        padding: 12px 0;
+    }
+    .footer-content {
+        gap: 10px;
+        padding: 0 12px;
+    }
+    .promo-badges {
+        gap: 8px;
+    }
+    .badge-button {
+        padding: 5px 10px;
+        min-width: 0;
+        border-radius: 5px;
+    }
+    .badge-icon {
+        font-size: 15px;
+        margin-right: 6px;
+    }
+    .badge-sub {
+        font-size: 6px;
+    }
+    .badge-main {
+        font-size: 11px;
+    }
 }
 
 /* Sleek Help Widget for Map */

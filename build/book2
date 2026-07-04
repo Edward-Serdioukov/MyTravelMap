@@ -334,8 +334,8 @@
     </style>
 </head>
 <body id="top">
-    <!-- Floating Close Button -->
-    <button class="close-button" onclick="window.close()" title="Close Book"><i class="fa fa-times"></i></button>
+    <!-- Back button - navigates to home (window.close doesn't work on non-popup pages) -->
+    <button class="close-button" onclick="window.location.href='/'" title="Back to Map"><i class="fa fa-arrow-left"></i></button>
 
     <div class="book-container">
         <h1>Travel Timeline</h1>
