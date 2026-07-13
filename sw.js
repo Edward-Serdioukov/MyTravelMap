@@ -1,5 +1,5 @@
 // sw.js
-const CACHE_NAME = 'mytravelmap-cache-v2';
+const CACHE_NAME = 'mytravelmap-cache-v3';
 const ASSETS_TO_CACHE = [
   '/',
   '/map2',
