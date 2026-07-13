@@ -45,6 +45,7 @@
             <li><a href="{{ url_for('book1') }}" class="{% if request.endpoint == 'book1' %}active{% endif %}">Book 1</a></li>
             <li><a href="{{ url_for('book2') }}" class="{% if request.endpoint == 'book2' %}active{% endif %}">Book 2</a></li>
             <li><a href="{{ url_for('add') }}" class="{% if request.endpoint == 'add' %}active{% endif %}">Add</a></li>
+            <!-- <li><a href="{{ url_for('about') }}" class="{% if request.endpoint == 'about' %}active{% endif %}">About</a></li> -->
         </ul>
     </nav>
     <div class="map-container">
@@ -52,20 +53,13 @@
     </div>
     <footer>
         <div class="footer-content">
-            <p>&copy; 2024, My Travel Map.</p>
+            <p>&copy; 2024-2026, <a href="https://myappst.vercel.app/" target="_blank" class="footer-link">My Travel Map</a>.</p>
             <div class="promo-badges">
-                <a href="https://play.google.com/store/apps/details?id=com.edwardserdioukov.mywnba" target="_blank" class="badge-button">
-                    <i class="fab fa-google-play badge-icon"></i>
+                <a href="https://myappst.vercel.app/" target="_blank" class="badge-button">
+                    <i class="fas fa-globe badge-icon"></i>
                     <div class="badge-text">
-                        <span class="badge-sub">GET IT ON</span>
-                        <span class="badge-main">Google Play</span>
-                    </div>
-                </a>
-                <a href="https://apps.apple.com/us/app/my-player-compare-basketball/id6767770190" target="_blank" class="badge-button">
-                    <i class="fab fa-apple badge-icon"></i>
-                    <div class="badge-text">
-                        <span class="badge-sub">Download on the</span>
-                        <span class="badge-main">App Store</span>
+                        <span class="badge-sub">VISIT MY WEBSITE</span>
+                        <span class="badge-main">More Apps</span>
                     </div>
                 </a>
             </div>
