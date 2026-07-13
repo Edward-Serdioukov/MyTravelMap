@@ -33,7 +33,8 @@ button_html = """
         If you click on any photo in the popup, a new window with large photos will open.</p>
         <button onclick="document.getElementById('info').style.display='none';">Close</button>
         <a href="/book" target="_blank">&#127758;</a>
-        <a href="/book-dates" target="_blank">&#128197;</a> 
+        <a href="/book-dates" target="_blank">&#128197;</a>
+        <a href="https://myappst.vercel.app/" target="_blank">&#127760;</a>
     </div>
 </div>
 """ 
