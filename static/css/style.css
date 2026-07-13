@@ -7,6 +7,12 @@ body {
     min-height: 100vh;
 }
 
+body.map-page {
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+}
+
 nav {
     background-color: #333;
     overflow: hidden;

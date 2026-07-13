@@ -37,7 +37,7 @@
     </script>
     <title>{{ title }}</title>
 </head>
-<body>
+<body class="{% if request.endpoint in ['index', 'map2'] %}map-page{% endif %}">
     <nav>
         <ul>
             <li><a href="{{ url_for('index') }}" class="{% if request.endpoint == 'index' %}active{% endif %}">Map 1</a></li>
